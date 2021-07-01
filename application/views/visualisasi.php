@@ -96,12 +96,12 @@
          */
         var data = [
             <?php
-            $data_warna = ['#FF8C00', '#00CED1', '#228B22'];
+            $data_warna = ['#FF8C00', '#228B22', '#00CED1'];
             $no = 0;
             foreach ($getJenisKelaminAlpaPertahun as $row) { ?> {
                     "category": "<?php echo $row->jenis_kelamin ?>",
                     "value": <?php echo $row->tot_absen ?>,
-                    "color": am4core.color("<?php echo $data_warna[++$no]; ?>"),
+                    "color": am4core.color("<?php echo $data_warna[$no++]; ?>"),
                     "breakdown": [
                         <?php
                         $getAlpaByTingkatanPertahun = $this->Visualisasi_model->getAlpaByTingkatanPertahun($tahun, $row->jenis_kelamin);
@@ -293,7 +293,14 @@
                                             <h5> Pola Ketidakhadiran Tanpa Keterangan (Alpa) Siswa Tahun <?php echo $tahun; ?> </h5>
                                         </div>
                                         <div class="thumbnail">
-                                            <div id="chartdiv_absensi_3"></div>
+                                            <?php if (!empty($getJenisKelaminAlpaPertahun)) { ?>
+                                                <div id="chartdiv_absensi_3"></div>
+                                            <?php } else { ?>
+                                                <div style="height: 300px;text-align:center;">
+                                                    <small>Belum ada data yang ditampilkan untuk tahun <?php echo $tahun; ?>.</small>
+                                                </div>
+                                            <?php } ?>
+
                                         </div>
                                     </div>
 
