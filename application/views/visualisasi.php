@@ -2,19 +2,31 @@
 <style>
     #chartdiv_laki {
         width: 100%;
-        height: 300px;
+        height: 250px;
         font-size: 10px;
     }
 
     #chartdiv_perempuan {
         width: 100%;
-        height: 300px;
+        height: 250px;
         font-size: 10px;
     }
 
     #chartdiv_absensi_3 {
         width: 100%;
-        height: 300px;
+        height: 200px;
+        font-size: 10px;
+    }
+
+    #chartdiv4 {
+        width: 100%;
+        height: 350px;
+        font-size: 10px;
+    }
+
+    #chartdiv5 {
+        width: 100%;
+        height: 350px;
         font-size: 10px;
     }
 </style>
@@ -211,6 +223,177 @@
 </script>
 <!-- Bagian absensi ketidakhadiran grafik ke 3 -->
 
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
+<!-- Chart code -->
+<script>
+    var chart = AmCharts.makeChart("chartdiv4", {
+        "type": "serial",
+        "theme": "none",
+        "legend": {
+            "horizontalGap": 10,
+            "position": "bottom",
+            "useGraphSettings": true,
+            "markerSize": 10
+        },
+        "dataProvider": [
+            <?php foreach ($getAbsensiLakiAllTahun as $row) { ?> {
+                    "year": <?php echo $row->tahun; ?>,
+                    <?php $getTingkatanByTingkatanJmlAbsen = $this->Visualisasi_model->getTingkatanByTingkatanJmlAbsen($row->tingkatan);
+                    foreach ($getTingkatanByTingkatanJmlAbsen as $r) {
+                    ?> "<?php echo $r->tingkatan; ?>": <?php echo $row->tot_absen; ?>,
+                    <?php } ?>
+                },
+            <?php } ?>
+        ],
+        "valueAxes": [{
+            "stackType": "regular",
+            "axisAlpha": 0.5,
+            "gridAlpha": 0
+        }],
+        "graphs": [
+            <?php
+            foreach ($getTingkatanByTingkatanJmlAbsen as $b) {
+            ?> {
+                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                    "fillAlphas": 0.8,
+                    "labelText": "[[value]]",
+                    "lineAlpha": 0.3,
+                    "title": "<?php echo $b->tingkatan; ?>",
+                    "type": "column",
+                    "color": "#000000",
+                    "valueField": "<?php echo $b->tingkatan; ?>"
+                },
+
+            <?php } ?>
+        ],
+        "rotate": true,
+        "categoryField": "year",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "position": "left"
+        },
+        "export": {
+            "enabled": true
+        }
+    });
+</script>
+
+<script>
+    var chart = AmCharts.makeChart("chartdiv5", {
+        "type": "serial",
+        "theme": "none",
+        "legend": {
+            "horizontalGap": 10,
+            "position": "bottom",
+            "useGraphSettings": true,
+            "markerSize": 10
+        },
+        "dataProvider": [{
+            "year": 2003,
+            "europe": 2.5,
+            "namerica": 2.5,
+            "asia": 2.1,
+            "lamerica": 0.3,
+            "meast": 0.2,
+            "africa": 0.1
+        }, {
+            "year": 2004,
+            "europe": 2.6,
+            "namerica": 2.7,
+            "asia": 2.2,
+            "lamerica": 0.3,
+            "meast": 0.3,
+            "africa": 0.1
+        }, {
+            "year": 2005,
+            "europe": 2.8,
+            "namerica": 2.9,
+            "asia": 2.4,
+            "lamerica": 0.3,
+            "meast": 0.3,
+            "africa": 0.1
+        }],
+        "valueAxes": [{
+            "stackType": "regular",
+            "axisAlpha": 0.5,
+            "gridAlpha": 0
+        }],
+        "graphs": [{
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Europe",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "europe"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "North America",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "namerica"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Asia-Pacific",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "asia"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Latin America",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "lamerica"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Middle-East",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "meast"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Africa",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "africa"
+        }],
+        "rotate": true,
+        "categoryField": "year",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "position": "left"
+        },
+        "export": {
+            "enabled": true
+        }
+    });
+</script>
+
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
@@ -288,6 +471,26 @@
                                     </div>
                                     <!-- end of ketidakhadiran siswa perempuan -->
 
+                                    <!-- Grafik bagian 4 -->
+                                    <div class="col-md-6">
+                                        <div class="header">
+                                            <h5> Tanpa Keterangan (Alpa) Siswa Laki-laki Tahun <?php echo $tahun; ?> </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <div id="chartdiv4"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="header">
+                                            <h5> Tanpa Keterangan (Alpa) Siswa Perempuan Tahun <?php echo $tahun; ?> </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <div id="chartdiv5"></div>
+                                        </div>
+                                    </div>
+                                    <!-- end grafik bagian 4 -->
+                                    <!-- Grafik Bagian 3 Bulat dan batang -->
                                     <div class="col-md-12">
                                         <div class="header">
                                             <h5> Pola Ketidakhadiran Tanpa Keterangan (Alpa) Siswa Tahun <?php echo $tahun; ?> </h5>
@@ -303,7 +506,7 @@
 
                                         </div>
                                     </div>
-
+                                    <!-- End of grafik bagian 3 bulat dan batang -->
                                 </div>
                             </div>
 
