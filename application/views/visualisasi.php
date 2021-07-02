@@ -229,7 +229,7 @@
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 
-<!-- Chart code -->
+<!-- Untuk membuat absensi berdasarkan tingkatan -->
 <script>
     var chart = AmCharts.makeChart("chartdiv4", {
         "type": "serial",
@@ -242,11 +242,15 @@
         },
         "dataProvider": [
             <?php foreach ($getAbsensiLakiAllTahun as $row) { ?> {
-                    "year": <?php echo $row->tahun; ?>,
-                    <?php $getTingkatanByTingkatanJmlAbsen = $this->Visualisasi_model->getTingkatanByTingkatanJmlAbsen($row->tingkatan);
-                    foreach ($getTingkatanByTingkatanJmlAbsen as $r) {
-                    ?> "<?php echo $r->tingkatan; ?>": <?php echo $row->tot_absen; ?>,
-                    <?php } ?>
+                    <?php $getTingkatanTk = $this->Visualisasi_model->getTingkatanTk($row->tahun); ?>
+                    <?php $getTingkatanSD = $this->Visualisasi_model->getTingkatanSD($row->tahun); ?>
+                    <?php $getTingkatanSMP = $this->Visualisasi_model->getTingkatanSMP($row->tahun); ?>
+
+                        "year": <?php echo $row->tahun; ?>,
+                        "tk": <?php echo !empty($getTingkatanTk->total_tk) ? $getTingkatanTk->total_tk : 0  ?>,
+                        "sd": <?php echo !empty($getTingkatanSD->total_sd) ? $getTingkatanSD->total_sd : 0 ?>,
+                        "smp": <?php echo !empty($getTingkatanSMP[0]->total_smp) ? $getTingkatanSMP[0]->total_smp : 0 ?>
+
                 },
             <?php } ?>
         ],
@@ -255,21 +259,35 @@
             "axisAlpha": 0.5,
             "gridAlpha": 0
         }],
-        "graphs": [
-            <?php
-            foreach ($getTingkatanByTingkatanJmlAbsen as $b) {
-            ?> {
-                    "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-                    "fillAlphas": 0.8,
-                    "labelText": "[[value]]",
-                    "lineAlpha": 0.3,
-                    "title": "<?php echo $b->tingkatan; ?>",
-                    "type": "column",
-                    "color": "#000000",
-                    "valueField": "<?php echo $b->tingkatan; ?>"
-                },
-
-            <?php } ?>
+        "graphs": [{
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillAlphas": 0.8,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "TK",
+                "type": "column",
+                "color": "#000000",
+                "valueField": "tk"
+            }, {
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillAlphas": 0.8,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "SD",
+                "type": "column",
+                "color": "#000000",
+                "valueField": "sd"
+            },
+            {
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillAlphas": 0.8,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "SMP",
+                "type": "column",
+                "color": "#000000",
+                "valueField": "smp"
+            },
         ],
         "rotate": true,
         "categoryField": "year",
@@ -397,6 +415,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
+
             <h2>Statistics & Visualization</h2>
         </div>
 
@@ -404,7 +423,10 @@
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
-
+                    <?php $getTingkatanSMP = $this->Visualisasi_model->getTingkatanSMP($row->tahun); ?>
+                    <?php foreach ($getTingkatanSMP as $row) { ?>
+                        <?php echo $row->total_smp; ?>
+                    <?php } ?>
                     <div class="header">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs tab-nav-right" role="tablist">
