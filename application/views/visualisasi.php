@@ -242,14 +242,14 @@
         },
         "dataProvider": [
             <?php foreach ($getAbsensiLakiAllTahun as $row) { ?> {
-                    <?php $getTingkatanTk = $this->Visualisasi_model->getTingkatanTk($row->tahun); ?>
-                    <?php $getTingkatanSD = $this->Visualisasi_model->getTingkatanSD($row->tahun); ?>
-                    <?php $getTingkatanSMP = $this->Visualisasi_model->getTingkatanSMP($row->tahun); ?>
+                    <?php $getTingkatanTk = $this->Visualisasi_model->getTingkatanTkLaki($row->tahun); ?>
+                    <?php $getTingkatanSD = $this->Visualisasi_model->getTingkatanSDLaki($row->tahun); ?>
+                    <?php $getTingkatanSMP = $this->Visualisasi_model->getTingkatanSMPLaki($row->tahun); ?>
 
                         "year": <?php echo $row->tahun; ?>,
                         "tk": <?php echo !empty($getTingkatanTk->total_tk) ? $getTingkatanTk->total_tk : 0  ?>,
                         "sd": <?php echo !empty($getTingkatanSD->total_sd) ? $getTingkatanSD->total_sd : 0 ?>,
-                        "smp": <?php echo !empty($getTingkatanSMP[0]->total_smp) ? $getTingkatanSMP[0]->total_smp : 0 ?>
+                        "smp": <?php echo !empty($getTingkatanSMP->total_smp) ? $getTingkatanSMP->total_smp : 0 ?>
 
                 },
             <?php } ?>
@@ -313,91 +313,54 @@
             "useGraphSettings": true,
             "markerSize": 10
         },
-        "dataProvider": [{
-            "year": 2003,
-            "europe": 2.5,
-            "namerica": 2.5,
-            "asia": 2.1,
-            "lamerica": 0.3,
-            "meast": 0.2,
-            "africa": 0.1
-        }, {
-            "year": 2004,
-            "europe": 2.6,
-            "namerica": 2.7,
-            "asia": 2.2,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }, {
-            "year": 2005,
-            "europe": 2.8,
-            "namerica": 2.9,
-            "asia": 2.4,
-            "lamerica": 0.3,
-            "meast": 0.3,
-            "africa": 0.1
-        }],
+        "dataProvider": [
+            <?php foreach ($getAbsensiPerempuanAllTahun as $r) { ?> {
+                    <?php $getTingkatanTkPerempuan = $this->Visualisasi_model->getTingkatanTkPerempuan($r->tahun); ?>
+                    <?php $getTingkatanSDPerempuan = $this->Visualisasi_model->getTingkatanSDPerempuan($r->tahun); ?>
+                    <?php $getTingkatanSMPPerempuan = $this->Visualisasi_model->getTingkatanSMPPerempuan($r->tahun); ?>
+                        "year": <?php echo $r->tahun; ?>,
+                        "tk": <?php echo !empty($getTingkatanTkPerempuan->total_tk) ? $getTingkatanTkPerempuan->total_tk : 0; ?>,
+                        "sd": <?php echo !empty($getTingkatanSDPerempuan->total_sd) ? $getTingkatanSDPerempuan->total_sd : 0; ?>,
+                        "smp": <?php echo !empty($getTingkatanSMPPerempuan->total_smp) ? $getTingkatanSMPPerempuan->total_smp : 0; ?>,
+                },
+            <?php } ?>
+        ],
         "valueAxes": [{
             "stackType": "regular",
             "axisAlpha": 0.5,
             "gridAlpha": 0
         }],
         "graphs": [{
-            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-            "fillAlphas": 0.8,
-            "labelText": "[[value]]",
-            "lineAlpha": 0.3,
-            "title": "Europe",
-            "type": "column",
-            "color": "#000000",
-            "valueField": "europe"
-        }, {
-            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-            "fillAlphas": 0.8,
-            "labelText": "[[value]]",
-            "lineAlpha": 0.3,
-            "title": "North America",
-            "type": "column",
-            "color": "#000000",
-            "valueField": "namerica"
-        }, {
-            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-            "fillAlphas": 0.8,
-            "labelText": "[[value]]",
-            "lineAlpha": 0.3,
-            "title": "Asia-Pacific",
-            "type": "column",
-            "color": "#000000",
-            "valueField": "asia"
-        }, {
-            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-            "fillAlphas": 0.8,
-            "labelText": "[[value]]",
-            "lineAlpha": 0.3,
-            "title": "Latin America",
-            "type": "column",
-            "color": "#000000",
-            "valueField": "lamerica"
-        }, {
-            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-            "fillAlphas": 0.8,
-            "labelText": "[[value]]",
-            "lineAlpha": 0.3,
-            "title": "Middle-East",
-            "type": "column",
-            "color": "#000000",
-            "valueField": "meast"
-        }, {
-            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
-            "fillAlphas": 0.8,
-            "labelText": "[[value]]",
-            "lineAlpha": 0.3,
-            "title": "Africa",
-            "type": "column",
-            "color": "#000000",
-            "valueField": "africa"
-        }],
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillAlphas": 0.8,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "TK",
+                "type": "column",
+                "color": "#000000",
+                "valueField": "tk"
+            },
+            {
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillAlphas": 0.8,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "SD",
+                "type": "column",
+                "color": "#000000",
+                "valueField": "sd"
+            },
+            {
+                "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+                "fillAlphas": 0.8,
+                "labelText": "[[value]]",
+                "lineAlpha": 0.3,
+                "title": "SMP",
+                "type": "column",
+                "color": "#000000",
+                "valueField": "smp"
+            },
+        ],
         "rotate": true,
         "categoryField": "year",
         "categoryAxis": {
@@ -423,10 +386,6 @@
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
-                    <?php $getTingkatanSMP = $this->Visualisasi_model->getTingkatanSMP($row->tahun); ?>
-                    <?php foreach ($getTingkatanSMP as $row) { ?>
-                        <?php echo $row->total_smp; ?>
-                    <?php } ?>
                     <div class="header">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs tab-nav-right" role="tablist">
@@ -496,7 +455,7 @@
                                     <!-- Grafik bagian 4 -->
                                     <div class="col-md-6">
                                         <div class="header">
-                                            <h5> Tanpa Keterangan (Alpa) Siswa Laki-laki Tahun <?php echo $tahun; ?> </h5>
+                                            <h5> Tanpa Keterangan (Alpa) Siswa Laki-laki Pertahun </h5>
                                         </div>
                                         <div class="thumbnail">
                                             <div id="chartdiv4"></div>
@@ -505,7 +464,7 @@
 
                                     <div class="col-md-6">
                                         <div class="header">
-                                            <h5> Tanpa Keterangan (Alpa) Siswa Perempuan Tahun <?php echo $tahun; ?> </h5>
+                                            <h5> Tanpa Keterangan (Alpa) Siswa Perempuan Pertahun </h5>
                                         </div>
                                         <div class="thumbnail">
                                             <div id="chartdiv5"></div>

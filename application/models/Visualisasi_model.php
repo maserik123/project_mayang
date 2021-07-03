@@ -81,18 +81,7 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function getAbsensiLakiAllTahun()
-    {
-        $this->db->select('count(fa.id_fact_absensi) as tot_absen, dt.tingkatan, dw.tahun');
-        $this->db->from('fact_absensi fa');
-        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
-        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
-        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
-        $this->db->group_by('dw.tahun');
-        $this->db->where('fa.jenis_kelamin', 'L');
-        $this->db->where('da.absensi', 'Alpa');
-        return $this->db->get()->result();
-    }
+
 
     public function getTingkatan()
     {
@@ -116,7 +105,21 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function getTingkatanTk($tahun)
+    public function getAbsensiLakiAllTahun()
+    {
+        $this->db->select('count(fa.id_fact_absensi) as tot_absen, dt.tingkatan, dw.tahun');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
+        $this->db->group_by('dw.tahun');
+        $this->db->where('fa.jenis_kelamin', 'L');
+        $this->db->where('da.absensi', 'Alpa');
+        return $this->db->get()->result();
+    }
+
+
+    public function getTingkatanTkLaki($tahun)
     {
         $this->db->select('count(id_fact_absensi) as total_tk, dt.tingkatan');
         $this->db->from('fact_absensi fa');
@@ -131,7 +134,7 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->row();
     }
 
-    public function getTingkatanSD($tahun)
+    public function getTingkatanSDLaki($tahun)
     {
         $this->db->select('count(id_fact_absensi) as total_sd, dt.tingkatan');
         $this->db->from('fact_absensi fa');
@@ -146,7 +149,7 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->row();
     }
 
-    public function getTingkatanSMP($tahun)
+    public function getTingkatanSMPLaki($tahun)
     {
         $this->db->select('count(id_fact_absensi) as total_smp, dt.tingkatan');
         $this->db->from('fact_absensi fa');
@@ -158,7 +161,66 @@ class Visualisasi_model extends CI_Model
         $this->db->where('fa.jenis_kelamin', 'L');
         $this->db->where('da.absensi', 'Alpa');
         $this->db->where('dw.tahun', $tahun);
+        return $this->db->get()->row();
+    }
+
+    public function getAbsensiPerempuanAllTahun()
+    {
+        $this->db->select('count(fa.id_fact_absensi) as tot_absen, dt.tingkatan, dw.tahun');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
+        $this->db->group_by('dw.tahun');
+        $this->db->where('fa.jenis_kelamin', 'P');
+        $this->db->where('da.absensi', 'Alpa');
         return $this->db->get()->result();
+    }
+
+
+    public function getTingkatanTkPerempuan($tahun)
+    {
+        $this->db->select('count(id_fact_absensi) as total_tk, dt.tingkatan');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
+        $this->db->group_by('fa.id_tingkatan');
+        $this->db->where('dt.tingkatan', 'TK');
+        $this->db->where('fa.jenis_kelamin', 'P');
+        $this->db->where('da.absensi', 'Alpa');
+        $this->db->where('dw.tahun', $tahun);
+        return $this->db->get()->row();
+    }
+
+    public function getTingkatanSDPerempuan($tahun)
+    {
+        $this->db->select('count(id_fact_absensi) as total_sd, dt.tingkatan');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
+        $this->db->group_by('fa.id_tingkatan');
+        $this->db->where('dt.tingkatan', 'SD');
+        $this->db->where('fa.jenis_kelamin', 'P');
+        $this->db->where('da.absensi', 'Alpa');
+        $this->db->where('dw.tahun', $tahun);
+        return $this->db->get()->row();
+    }
+
+    public function getTingkatanSMPPerempuan($tahun)
+    {
+        $this->db->select('count(id_fact_absensi) as total_smp, dt.tingkatan');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
+        $this->db->group_by('fa.id_tingkatan');
+        $this->db->where('dt.tingkatan', 'SMP');
+        $this->db->where('fa.jenis_kelamin', 'P');
+        $this->db->where('da.absensi', 'Alpa');
+        $this->db->where('dw.tahun', $tahun);
+        return $this->db->get()->row();
     }
 }
 
