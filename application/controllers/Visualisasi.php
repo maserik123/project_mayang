@@ -27,6 +27,8 @@ class Visualisasi extends CI_Controller
         $view['getTingkatan'] = $this->Visualisasi_model->getTingkatan();
         $view['getTingkatanByTingkatanJmlAbsen'] = $this->Visualisasi_model->getTingkatanByTingkatanJmlAbsen();
         $view['getAbsensiPerempuanAllTahun'] = $this->Visualisasi_model->getAbsensiPerempuanAllTahun();
+        $view['getPerbandinganPrestasiAbsensi'] = $this->Visualisasi_model->getPerbandinganPrestasiAbsensi();
+        $view['getDataPrestasi'] = $this->Visualisasi_model->getDataPrestasi();
         $this->load->view('templates/header', $view);
         $this->load->view('templates/sidebar', $view);
         $this->load->view('visualisasi', $view);

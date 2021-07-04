@@ -29,6 +29,12 @@
         height: 350px;
         font-size: 10px;
     }
+
+    #chartdiv_bagian_2 {
+        width: 100%;
+        height: 600px;
+        font-size: 10px;
+    }
 </style>
 
 <!-- Resources -->
@@ -37,6 +43,13 @@
 <script src="https://cdn.amcharts.com/lib/4/themes/material.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
+<!-- Bagian Grafik Tab 1 -->
 <!-- Chart Bagian absensi ketidakhadiran laki-laki-->
 <script>
     am4core.ready(function() {
@@ -223,12 +236,6 @@
 </script>
 <!-- Bagian absensi ketidakhadiran grafik ke 3 -->
 
-<!-- Resources -->
-<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
-<script src="https://www.amcharts.com/lib/3/serial.js"></script>
-<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
-<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-
 <!-- Untuk membuat absensi berdasarkan tingkatan -->
 <script>
     var chart = AmCharts.makeChart("chartdiv4", {
@@ -374,7 +381,129 @@
         }
     });
 </script>
+<!-- End Grafik bagian Tab 1 -->
 
+<!-- Grafik bagian tab 2 -->
+
+<!-- Chart code -->
+<script>
+    am4core.ready(function() {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+
+
+        var chart = am4core.create('chartdiv_bagian_2', am4charts.XYChart)
+        chart.colors.step = 2;
+
+        chart.legend = new am4charts.Legend()
+        chart.legend.position = 'top'
+        chart.legend.paddingBottom = 20
+        chart.legend.labels.template.maxWidth = 95
+
+        var xAxis = chart.xAxes.push(new am4charts.CategoryAxis())
+        xAxis.dataFields.category = 'category'
+        xAxis.renderer.cellStartLocation = 0.1
+        xAxis.renderer.cellEndLocation = 0.9
+        xAxis.renderer.grid.template.location = 0;
+
+        var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        yAxis.min = 0;
+
+        function createSeries(value, name) {
+            var series = chart.series.push(new am4charts.ColumnSeries())
+            series.dataFields.valueY = value
+            series.dataFields.categoryX = 'category'
+            series.name = name
+
+            series.events.on("hidden", arrangeColumns);
+            series.events.on("shown", arrangeColumns);
+
+            var bullet = series.bullets.push(new am4charts.LabelBullet())
+            bullet.interactionsEnabled = false
+            bullet.dy = 30;
+            bullet.label.text = '{valueY}'
+            bullet.label.fill = am4core.color('#ffffff')
+
+            return series;
+        }
+
+        chart.data = [
+            <?php foreach ($getPerbandinganPrestasiAbsensi as $r) { ?>
+                <?php $getOlimpiadeKimia = $this->Visualisasi_model->getOlimpiadeKimia($r->tahun); ?> {
+                    category: "<?php echo $r->tahun ?>",
+                    olimpiade_kimia: 45,
+                    mewarnai: 55,
+                    memanah: 55,
+                    berkuda: 55,
+                    olimpiade_inggris: 55,
+                    olimpiade_matematika: 55,
+                    olimpiade_sains: 55,
+                    jambore: 55,
+                    renang: 55,
+                },
+            <?php } ?>
+
+        ]
+        createSeries('olimpiade_kimia', 'Olimpiade Kimia');
+        createSeries('mewarnai', 'Mewarnai');
+        createSeries('memanah', 'Memanah');
+        createSeries('berkuda', 'Berkuda');
+        createSeries('olimpiade_inggris', 'Olimpiade Bahasa Inggris');
+        createSeries('olimpiade_matematika', 'Olimpiade Matematika');
+        createSeries('olimpiade_sains', 'Olimpiade Sains');
+        createSeries('jambore', 'Jambore');
+        createSeries('renang', 'Renang');
+
+        function arrangeColumns() {
+
+            var series = chart.series.getIndex(0);
+
+            var w = 1 - xAxis.renderer.cellStartLocation - (1 - xAxis.renderer.cellEndLocation);
+            if (series.dataItems.length > 1) {
+                var x0 = xAxis.getX(series.dataItems.getIndex(0), "categoryX");
+                var x1 = xAxis.getX(series.dataItems.getIndex(1), "categoryX");
+                var delta = ((x1 - x0) / chart.series.length) * w;
+                if (am4core.isNumber(delta)) {
+                    var middle = chart.series.length / 2;
+
+                    var newIndex = 0;
+                    chart.series.each(function(series) {
+                        if (!series.isHidden && !series.isHiding) {
+                            series.dummyData = newIndex;
+                            newIndex++;
+                        } else {
+                            series.dummyData = chart.series.indexOf(series);
+                        }
+                    })
+                    var visibleCount = newIndex;
+                    var newMiddle = visibleCount / 2;
+
+                    chart.series.each(function(series) {
+                        var trueIndex = chart.series.indexOf(series);
+                        var newIndex = series.dummyData;
+
+                        var dx = (newIndex - trueIndex + middle - newMiddle) * delta
+
+                        series.animate({
+                            property: "dx",
+                            to: dx
+                        }, series.interpolationDuration, series.interpolationEasing);
+                        series.bulletsContainer.animate({
+                            property: "dx",
+                            to: dx
+                        }, series.interpolationDuration, series.interpolationEasing);
+                    })
+                }
+            }
+        }
+
+    }); // end am4core.ready()
+</script>
+
+<!-- End grafik bagian 2 -->
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
@@ -492,13 +621,23 @@
                             </div>
 
                             <div role="tabpanel" class="tab-pane fade" id="absen2">
-                                <b>Profile Content</b>
-                                <p>
-                                    Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                                    Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                                    pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                                    sadipscing mel.
-                                </p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="header">
+                                            <h5> Prestasi Tingkat </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <?php if (!empty($getAbsensiLakiLaki)) { ?>
+                                                <div id="chartdiv_bagian_2"></div>
+                                            <?php } else { ?>
+                                                <div style="height: 300px;text-align:center;">
+                                                    <small>Belum ada data yang ditampilkan untuk tahun <?php echo $tahun; ?>.</small>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="karakter">
                                 <b>Message Content</b>
