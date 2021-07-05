@@ -40,6 +40,11 @@ class Visualisasi extends CI_Controller
         $view['sopanSantunSD'] = $this->Visualisasi_model->sopanSantunSD();
         $view['kejujuranSD'] = $this->Visualisasi_model->kejujuranSD();
 
+        $view['tanggungJawabSMP'] = $this->Visualisasi_model->tanggungJawabSMP();
+        $view['disiplinSMP'] = $this->Visualisasi_model->disiplinSMP();
+        $view['kepemimpinanSMP'] = $this->Visualisasi_model->kepemimpinanSMP();
+        $view['sopanSantunSMP'] = $this->Visualisasi_model->sopanSantunSMP();
+        $view['kejujuranSMP'] = $this->Visualisasi_model->kejujuranSMP();
 
         $this->load->view('templates/header', $view);
         $this->load->view('templates/sidebar', $view);

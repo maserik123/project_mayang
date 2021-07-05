@@ -479,11 +479,11 @@
             "kejujuran": <?php echo !empty($kejujuranSD[0]->total_kejujuran_sd) ? $kejujuranSD[0]->total_kejujuran_sd : 0; ?>,
         }, {
             "year": "SMP",
-            "tanggung_jawab": <?php echo !empty($tanggungJawabSD[0]->total_tanggung_jawab_sd) ? $tanggungJawabSD[0]->total_tanggung_jawab_sd : 0; ?>,
-            "disiplin": <?php echo !empty($disiplinSD[0]->total_disiplin_sd) ? $disiplinSD[0]->total_disiplin_sd : 0; ?>,
-            "kepemimpinan": <?php echo !empty($kepemimpinanSD[0]->total_kepemimpinan_sd) ? $kepemimpinanSD[0]->total_kepemimpinan_sd : 0; ?>,
-            "sopan_santun": <?php echo !empty($sopanSantunSD[0]->total_sopansantun_sd) ? $sopanSantunSD[0]->total_sopansantun_sd : 0; ?>,
-            "kejujuran": <?php echo !empty($kejujuranSD[0]->total_kejujuran_sd) ? $kejujuranSD[0]->total_kejujuran_sd : 0; ?>,
+            "tanggung_jawab": <?php echo !empty($tanggungJawabSMP[0]->total_tanggung_jawab_smp) ? $tanggungJawabSMP[0]->total_tanggung_jawab_smp : 0; ?>,
+            "disiplin": <?php echo !empty($disiplinSMP[0]->total_disiplin_smp) ? $disiplinSMP[0]->total_disiplin_smp : 0; ?>,
+            "kepemimpinan": <?php echo !empty($kepemimpinanSMP[0]->total_kepemimpinan_smp) ? $kepemimpinanSMP[0]->total_kepemimpinan_smp : 0; ?>,
+            "sopan_santun": <?php echo !empty($sopanSantunSMP[0]->total_sopansantun_smp) ? $sopanSantunSMP[0]->total_sopansantun_smp : 0; ?>,
+            "kejujuran": <?php echo !empty($kejujuranSMP[0]->total_kejujuran_smp) ? $kejujuranSMP[0]->total_kejujuran_smp : 0; ?>,
         }, ],
         "valueAxes": [{
             "stackType": "regular",
@@ -493,7 +493,7 @@
         "graphs": [{
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $tanggungJawabTK[0]->tanggungjawab == 1 ? 'Sangat Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 2 ? 'Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 3 ? 'Baik' : ($tanggungJawabTK[0]->tanggungjawab == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]]</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "[[value]]",
+            "labelText": "<?php echo $tanggungJawabTK[0]->tanggungjawab == 1 ? 'Sangat Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 2 ? 'Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 3 ? 'Baik' : ($tanggungJawabTK[0]->tanggungjawab == 4 ? 'Sangat Baik' : ''))) ?> : [[value]]",
             "lineAlpha": 0.3,
             "title": "Tanggung Jawab",
             "type": "column",
@@ -502,7 +502,7 @@
         }, {
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $disiplinTK[0]->disiplin == 1 ? 'Sangat Buruk' : ($disiplinTK[0]->disiplin == 2 ? 'Buruk' : ($disiplinTK[0]->disiplin == 3 ? 'Baik' : ($disiplinTK[0]->disiplin == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]]</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "[[value]]",
+            "labelText": "<?php echo $disiplinTK[0]->disiplin == 1 ? 'Sangat Buruk' : ($disiplinTK[0]->disiplin == 2 ? 'Buruk' : ($disiplinTK[0]->disiplin == 3 ? 'Baik' : ($disiplinTK[0]->disiplin == 4 ? 'Sangat Baik' : ''))) ?> : [[value]]",
             "lineAlpha": 0.3,
             "title": "Disiplin",
             "type": "column",
@@ -511,7 +511,7 @@
         }, {
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $kepemimpinanTK[0]->kepemimpinan == 1 ? 'Sangat Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 2 ? 'Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 3 ? 'Baik' : ($kepemimpinanTK[0]->kepemimpinan == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]]</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "[[value]]",
+            "labelText": "<?php echo $kepemimpinanTK[0]->kepemimpinan == 1 ? 'Sangat Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 2 ? 'Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 3 ? 'Baik' : ($kepemimpinanTK[0]->kepemimpinan == 4 ? 'Sangat Baik' : ''))) ?> : [[value]]",
             "lineAlpha": 0.3,
             "title": "Kepemimpinan",
             "type": "column",
@@ -521,7 +521,7 @@
         }, {
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $sopanSantunTK[0]->sopansantun == 1 ? 'Sangat Buruk' : ($sopanSantunTK[0]->sopansantun == 2 ? 'Buruk' : ($sopanSantunTK[0]->sopansantun == 3 ? 'Baik' : ($sopanSantunTK[0]->sopansantun == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]]</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "[[value]]",
+            "labelText": "<?php echo $sopanSantunTK[0]->sopansantun == 1 ? 'Sangat Buruk' : ($sopanSantunTK[0]->sopansantun == 2 ? 'Buruk' : ($sopanSantunTK[0]->sopansantun == 3 ? 'Baik' : ($sopanSantunTK[0]->sopansantun == 4 ? 'Sangat Baik' : ''))) ?> : [[value]]",
             "lineAlpha": 0.3,
             "title": "Sopan Santun",
             "type": "column",
@@ -530,7 +530,7 @@
         }, {
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $kejujuranTK[0]->kejujuran == 1 ? 'Sangat Buruk' : ($kejujuranTK[0]->kejujuran == 2 ? 'Buruk' : ($kejujuranTK[0]->kejujuran == 3 ? 'Baik' : ($kejujuranTK[0]->kejujuran == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]]</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "[[value]]",
+            "labelText": "<?php echo $kejujuranTK[0]->kejujuran == 1 ? 'Sangat Buruk' : ($kejujuranTK[0]->kejujuran == 2 ? 'Buruk' : ($kejujuranTK[0]->kejujuran == 3 ? 'Baik' : ($kejujuranTK[0]->kejujuran == 4 ? 'Sangat Baik' : ''))) ?> : [[value]]",
             "lineAlpha": 0.3,
             "title": "Kejujuran",
             "type": "column",
