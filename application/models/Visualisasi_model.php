@@ -249,6 +249,7 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    // Bagian TK
     // Bagian tanggung jawab TK
     public function tanggungJawabTK()
     {
@@ -272,9 +273,9 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function kepemimpinan()
+    public function kepemimpinanTK()
     {
-        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_tk');
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_tk, fks.kepemimpinan');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -283,9 +284,148 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function sopanSantunTK()
+    {
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_tk, fks.sopansantun');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.sopansantun');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
 
+    public function kejujuranTK()
+    {
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_tk, fks.kejujuran');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.kejujuran');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
+    // End of Bagian TK
+
+    // Start of Bagian SD
+    public function tanggungJawabSD()
+    {
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_sd, fks.tanggungjawab');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.tanggungjawab');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function disiplinSD()
+    {
+        $this->db->select('count(fks.disiplin) as total_disiplin_sd, fks.disiplin');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.disiplin');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function kepemimpinanSD()
+    {
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_sd, fks.kepemimpinan');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.kepemimpinan');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function sopanSantunSD()
+    {
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_sd, fks.sopansantun');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.sopansantun');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function kejujuranSD()
+    {
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_sd, fks.kejujuran');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.kejujuran');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    // End of SD
+
+    // Start of Bagian SMP
+    public function tanggungJawabSMP()
+    {
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_sd, fks.tanggungjawab');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.tanggungjawab');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function disiplinSMP()
+    {
+        $this->db->select('count(fks.disiplin) as total_disiplin_sd, fks.disiplin');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.disiplin');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function kepemimpinanSMP()
+    {
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_sd, fks.kepemimpinan');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.kepemimpinan');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function sopanSantunSMP()
+    {
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_sd, fks.sopansantun');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.sopansantun');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function kejujuranSMP()
+    {
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_sd, fks.kejujuran');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.kejujuran');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    // End of SMP
 
     // End of Bagian Tab 3
+
+
 }
 
 /* End of file Visualisasi_model.php */
