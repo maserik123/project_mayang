@@ -222,45 +222,70 @@ class Visualisasi_model extends CI_Model
     // End of Tab 1
 
     // Bagian Tab 2
-
     public function getPerbandinganPrestasiAbsensi()
     {
-        $this->db->select('count(fp.id_fact_prestasi) as total_prestasi, count(fa.id_fact_absensi) as total_absensi, dw_fa.tahun');
+        $this->db->select('count(fa.id_fact_absensi) as total_absensi, count(fp.id_fact_prestasi) as total_prestasi, dw.tahun');
         $this->db->from('fact_absensi fa');
-        $this->db->join('fact_prestasi fp', 'fp.id_waktu = fa.id_waktu', 'left');
-        $this->db->join('dim_waktu dw_fa', 'dw_fa.id_waktu = fa.id_waktu', 'left');
-        $this->db->join('dim_tingkatan dt_fa', 'dt_fa.id_tingkatan = fa.id_tingkatan', 'left');
-        $this->db->join('dim_prestasi dp_fp', 'dp_fp.id_prestasi = fp.id_prestasi', 'left');
-        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
-        $this->db->group_by('dw_fa.tahun');
-        $this->db->where('da.absensi', 'Alpa');
-        $this->db->where('fa.jenis_kelamin = "L"');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('fact_prestasi fp', 'fp.id_waktu = dw.id_waktu', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fp.id_tingkatan', 'left');
+        $this->db->group_by('dw.tahun');
+        // $this->db->where('fa.id_waktu = fp.id_waktu');
+        // $this->db->where('dt.tingkatan = "SD"');
         return $this->db->get()->result();
     }
 
-    public function getDataPrestasi()
+    // End of Tab 2
+
+    // Bagian Tab 3
+
+    public function getKarakterSiswa()
     {
-        $this->db->select('nama_prestasi');
-        $this->db->from('dim_prestasi');
-        $this->db->order_by('id_prestasi');
+        $this->db->select('count(fks.id_karakter_siswa) as total_karakter, dt.tingkatan, ds.jenis_kelamin');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('dt.tingkatan');
         return $this->db->get()->result();
     }
 
-    public function getOlimpiadeKimia($tahun)
+    // Bagian tanggung jawab TK
+    public function tanggungJawabTK()
     {
-        $this->db->select('count(fp.id_fact_prestasi) as total_prestasi, count(fa.id_fact_absensi) as total_absensi, dw_fa.tahun');
-        $this->db->from('fact_absensi fa');
-        $this->db->join('fact_prestasi fp', 'fp.id_waktu = fa.id_waktu', 'left');
-        $this->db->join('dim_waktu dw_fa', 'dw_fa.id_waktu = fa.id_waktu', 'left');
-        $this->db->join('dim_tingkatan dt_fa', 'dt_fa.id_tingkatan = fa.id_tingkatan', 'left');
-        $this->db->join('dim_prestasi dp_fp', 'dp_fp.id_prestasi = fp.id_prestasi', 'left');
-        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
-        $this->db->group_by('dt_fa.tingkatan');
-        $this->db->where('da.absensi', 'Alpa');
-        $this->db->where('dp_fp.id_prestasi = fp.id_prestasi');
-        $this->db->where('dw_fa.tahun', $tahun);
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_tk, fks.tanggungjawab');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.tanggungjawab');
+        $this->db->where('dt.tingkatan', 'TK');
         return $this->db->get()->result();
     }
+
+    public function disiplinTK()
+    {
+        $this->db->select('count(fks.disiplin) as total_disiplin_tk, fks.disiplin');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.disiplin');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
+
+    public function kepemimpinan()
+    {
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_tk');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        $this->db->group_by('fks.kepemimpinan');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
+
+
+
+    // End of Bagian Tab 3
 }
 
 /* End of file Visualisasi_model.php */

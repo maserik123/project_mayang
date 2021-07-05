@@ -32,7 +32,13 @@
 
     #chartdiv_bagian_2 {
         width: 100%;
-        height: 600px;
+        height: 400px;
+        font-size: 10px;
+    }
+
+    #chartdiv_1_bagian_3 {
+        width: 100%;
+        height: 400px;
         font-size: 10px;
     }
 </style>
@@ -385,132 +391,174 @@
 
 <!-- Grafik bagian tab 2 -->
 
-<!-- Chart code -->
+<!-- Chart 1 -->
 <script>
-    am4core.ready(function() {
-
-        // Themes begin
-        am4core.useTheme(am4themes_animated);
-        // Themes end
-
-
-
-        var chart = am4core.create('chartdiv_bagian_2', am4charts.XYChart)
-        chart.colors.step = 2;
-
-        chart.legend = new am4charts.Legend()
-        chart.legend.position = 'top'
-        chart.legend.paddingBottom = 20
-        chart.legend.labels.template.maxWidth = 95
-
-        var xAxis = chart.xAxes.push(new am4charts.CategoryAxis())
-        xAxis.dataFields.category = 'category'
-        xAxis.renderer.cellStartLocation = 0.1
-        xAxis.renderer.cellEndLocation = 0.9
-        xAxis.renderer.grid.template.location = 0;
-
-        var yAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        yAxis.min = 0;
-
-        function createSeries(value, name) {
-            var series = chart.series.push(new am4charts.ColumnSeries())
-            series.dataFields.valueY = value
-            series.dataFields.categoryX = 'category'
-            series.name = name
-
-            series.events.on("hidden", arrangeColumns);
-            series.events.on("shown", arrangeColumns);
-
-            var bullet = series.bullets.push(new am4charts.LabelBullet())
-            bullet.interactionsEnabled = false
-            bullet.dy = 30;
-            bullet.label.text = '{valueY}'
-            bullet.label.fill = am4core.color('#ffffff')
-
-            return series;
-        }
-
-        chart.data = [
-            <?php foreach ($getPerbandinganPrestasiAbsensi as $r) { ?>
-                <?php $getOlimpiadeKimia = $this->Visualisasi_model->getOlimpiadeKimia($r->tahun); ?> {
-                    category: "<?php echo $r->tahun ?>",
-                    olimpiade_kimia: 45,
-                    mewarnai: 55,
-                    memanah: 55,
-                    berkuda: 55,
-                    olimpiade_inggris: 55,
-                    olimpiade_matematika: 55,
-                    olimpiade_sains: 55,
-                    jambore: 55,
-                    renang: 55,
+    var chart = AmCharts.makeChart("chartdiv_bagian_2", {
+        "theme": "none",
+        "type": "serial",
+        "legend": {
+            "horizontalGap": 10,
+            "position": "bottom",
+            "useGraphSettings": true,
+            "markerSize": 10
+        },
+        "dataProvider": [
+            <?php foreach ($getPerbandinganPrestasiAbsensi as $row) { ?> {
+                    "country": "<?php echo !empty($row->tahun) ? $row->tahun : 0; ?>",
+                    "absensi": "<?php echo !empty($row->total_absensi) ? $row->total_absensi : 0; ?>",
+                    "prestasi": "<?php echo !empty($row->total_prestasi) ? $row->total_prestasi : 0; ?>",
                 },
             <?php } ?>
-
-        ]
-        createSeries('olimpiade_kimia', 'Olimpiade Kimia');
-        createSeries('mewarnai', 'Mewarnai');
-        createSeries('memanah', 'Memanah');
-        createSeries('berkuda', 'Berkuda');
-        createSeries('olimpiade_inggris', 'Olimpiade Bahasa Inggris');
-        createSeries('olimpiade_matematika', 'Olimpiade Matematika');
-        createSeries('olimpiade_sains', 'Olimpiade Sains');
-        createSeries('jambore', 'Jambore');
-        createSeries('renang', 'Renang');
-
-        function arrangeColumns() {
-
-            var series = chart.series.getIndex(0);
-
-            var w = 1 - xAxis.renderer.cellStartLocation - (1 - xAxis.renderer.cellEndLocation);
-            if (series.dataItems.length > 1) {
-                var x0 = xAxis.getX(series.dataItems.getIndex(0), "categoryX");
-                var x1 = xAxis.getX(series.dataItems.getIndex(1), "categoryX");
-                var delta = ((x1 - x0) / chart.series.length) * w;
-                if (am4core.isNumber(delta)) {
-                    var middle = chart.series.length / 2;
-
-                    var newIndex = 0;
-                    chart.series.each(function(series) {
-                        if (!series.isHidden && !series.isHiding) {
-                            series.dummyData = newIndex;
-                            newIndex++;
-                        } else {
-                            series.dummyData = chart.series.indexOf(series);
-                        }
-                    })
-                    var visibleCount = newIndex;
-                    var newMiddle = visibleCount / 2;
-
-                    chart.series.each(function(series) {
-                        var trueIndex = chart.series.indexOf(series);
-                        var newIndex = series.dummyData;
-
-                        var dx = (newIndex - trueIndex + middle - newMiddle) * delta
-
-                        series.animate({
-                            property: "dx",
-                            to: dx
-                        }, series.interpolationDuration, series.interpolationEasing);
-                        series.bulletsContainer.animate({
-                            property: "dx",
-                            to: dx
-                        }, series.interpolationDuration, series.interpolationEasing);
-                    })
-                }
-            }
+        ],
+        "valueAxes": [{
+            "unit": "%",
+            "position": "left",
+            "title": "Perbandingan Prestasi dengan Absensi (Alpa)",
+        }],
+        "startDuration": 1,
+        "graphs": [{
+            "balloonText": "Absensi: <b>[[value]]</b>",
+            "fillAlphas": 0.9,
+            "lineAlpha": 0.2,
+            "title": "Absensi",
+            "type": "column",
+            "valueField": "absensi"
+        }, {
+            "balloonText": "Prestasi: <b>[[value]]</b>",
+            "fillAlphas": 0.9,
+            "lineAlpha": 0.2,
+            "title": "Prestasi",
+            "type": "column",
+            "clustered": false,
+            "columnWidth": 0.5,
+            "valueField": "prestasi"
+        }],
+        "plotAreaFillAlphas": 0.1,
+        "categoryField": "country",
+        "categoryAxis": {
+            "gridPosition": "start"
+        },
+        "export": {
+            "enabled": true
         }
 
-    }); // end am4core.ready()
+    });
 </script>
+<!-- End Chart 1 -->
 
 <!-- End grafik bagian 2 -->
+
+<!-- Grafik bagian tab 3 -->
+
+<!-- Chart 1 -->
+<!-- Chart code -->
+<script>
+    var chart = AmCharts.makeChart("chartdiv_1_bagian_3", {
+        "type": "serial",
+        "theme": "none",
+        "depth3D": 20,
+        "angle": 30,
+        "legend": {
+            "horizontalGap": 10,
+            "useGraphSettings": true,
+            "markerSize": 10
+        },
+        "dataProvider": [{
+            "year": "TK",
+            "tanggung_jawab": <?php echo !empty($tanggungJawabTK[0]->total_tanggung_jawab_tk) ? $tanggungJawabTK[0]->total_tanggung_jawab_tk : '0'; ?>,
+            "disiplin": <?php echo !empty($disiplinTK[0]->total_disiplin_tk) ? $disiplinTK[0]->total_disiplin_tk : '0'; ?>,
+            "kepemimpinan": 2.1,
+            "sopan_santun": 1.2,
+            "kejujuran": 0.2,
+        }, {
+            "year": "SD",
+            "tanggung_jawab": 2.5,
+            "disiplin": 2.5,
+            "kepemimpinan": 2.1,
+            "sopan_santun": 1.2,
+            "kejujuran": 0.2,
+        }, {
+            "year": "SMP",
+            "tanggung_jawab": 2.5,
+            "disiplin": 2.5,
+            "kepemimpinan": 2.1,
+            "sopan_santun": 1.2,
+            "kejujuran": 0.2,
+        }, ],
+        "valueAxes": [{
+            "stackType": "regular",
+            "axisAlpha": 0,
+            "gridAlpha": 0
+        }],
+        "graphs": [{
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $tanggungJawabTK[0]->tanggungjawab == 1 ? 'Sangat Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 2 ? 'Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 3 ? 'Baik' : ($tanggungJawabTK[0]->tanggungjawab == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Tanggung Jawab",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "tanggung_jawab"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $disiplinTK[0]->disiplin == 1 ? 'Sangat Buruk' : ($disiplinTK[0]->disiplin == 2 ? 'Buruk' : ($disiplinTK[0]->disiplin == 3 ? 'Baik' : ($disiplinTK[0]->disiplin == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Disiplin",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "disiplin"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Kepemimpinan",
+            "type": "column",
+            "newStack": true,
+            "color": "#000000",
+            "valueField": "kepemimpinan"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Sopan Santun",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "sopan_santun"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Kejujuran",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "kejujuran"
+        }, ],
+        "categoryField": "year",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "position": "left"
+        },
+        "export": {
+            "enabled": true
+        }
+
+    });
+</script>
+<!-- End Chart 1 -->
+
+<!-- End of grafik bagian 3 -->
+
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-
             <h2>Statistics & Visualization</h2>
         </div>
-
         <!-- Siswa Laki-laki -->
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -624,10 +672,10 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="header">
-                                            <h5> Prestasi Tingkat </h5>
+                                            <h5> Perbandingan Absensi(Alpa) dengan Prestasi Keseluruhan </h5>
                                         </div>
                                         <div class="thumbnail">
-                                            <?php if (!empty($getAbsensiLakiLaki)) { ?>
+                                            <?php if (!empty($getPerbandinganPrestasiAbsensi)) { ?>
                                                 <div id="chartdiv_bagian_2"></div>
                                             <?php } else { ?>
                                                 <div style="height: 300px;text-align:center;">
@@ -640,13 +688,17 @@
 
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="karakter">
-                                <b>Message Content</b>
-                                <p>
-                                    Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                                    Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                                    pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                                    sadipscing mel.
-                                </p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="header">
+                                            <h5> Perbandingan Absensi(Alpa) dengan Prestasi Keseluruhan </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <div id="chartdiv_1_bagian_3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="keeratan">
                                 <b>Settings Content</b>
