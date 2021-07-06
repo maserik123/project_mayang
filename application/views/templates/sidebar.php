@@ -36,8 +36,10 @@
                   </li>
 
 
-                  <li>
-                      <a href="#">
+                  <li class="<?php if (isset($active_kpi)) {
+                                    echo $active_kpi;
+                                } ?>">
+                      <a href="<?php echo base_url('visualisasi/performanceIndicators') ?>">
                           <i class="material-icons">bar_chart</i>
                           <span>Key Performance Indicators</span>
                       </a>

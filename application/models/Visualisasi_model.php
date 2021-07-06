@@ -424,6 +424,89 @@ class Visualisasi_model extends CI_Model
     // End of SMP
 
     // End of Bagian Tab 3
+    // Start of Bagian Tab 4
+
+    function getGuruAjarRelevanTK()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_tk, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'TK');
+        $this->db->where('dg.relevan', 'Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    function getGuruAjarTidakRelevanTK()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_tk, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'TK');
+        $this->db->where('dg.relevan', 'Tidak Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    function getGuruAjarRelevanSD()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_sd, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'SD');
+        $this->db->where('dg.relevan', 'Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    function getGuruAjarTidakRelevanSD()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_sd, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'SD');
+        $this->db->where('dg.relevan', 'Tidak Relevan');
+
+        return $this->db->get()->result();
+    }
+
+
+    function getGuruAjarRelevanSMP()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_smp, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'SMP');
+        $this->db->where('dg.relevan', 'Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    function getGuruAjarTidakRelevanSMP()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_smp, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'SMP');
+        $this->db->where('dg.relevan', 'Tidak Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    // End of Bagian Tab 4
+
 
 
 }

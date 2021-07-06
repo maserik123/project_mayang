@@ -41,6 +41,12 @@
         height: 400px;
         font-size: 10px;
     }
+
+    #chartdiv_1_bagian_4 {
+        width: 100%;
+        height: 400px;
+        font-size: 10px;
+    }
 </style>
 
 <!-- Resources -->
@@ -451,7 +457,6 @@
 <!-- Grafik bagian tab 3 -->
 
 <!-- Chart 1 -->
-<!-- Chart code -->
 <script>
     var chart = AmCharts.makeChart("chartdiv_1_bagian_3", {
         "type": "serial",
@@ -553,6 +558,70 @@
 <!-- End Chart 1 -->
 
 <!-- End of grafik bagian 3 -->
+
+<!-- Start to Bagian Tab 4 -->
+<script>
+    var chart = AmCharts.makeChart("chartdiv_1_bagian_4", {
+        "type": "serial",
+        "theme": "none",
+        "legend": {
+            "horizontalGap": 10,
+            "maxColumns": 1,
+            "position": "right",
+            "useGraphSettings": true,
+            "markerSize": 10
+        },
+        "dataProvider": [{
+            "year": "TK",
+            "relevan": <?php echo !empty($getGuruAjarRelevanTK[0]->total_relevan_tk) ? $getGuruAjarRelevanTK[0]->total_relevan_tk : 0; ?>,
+            "tidak_relevan": <?php echo !empty($getGuruAjarTidakRelevanTK[0]->total_tidak_relevan_tk) ? $getGuruAjarTidakRelevanTK[0]->total_tidak_relevan_tk : 0; ?>,
+        }, {
+            "year": "SD",
+            "relevan": <?php echo !empty($getGuruAjarRelevanSD[0]->total_relevan_sd) ? $getGuruAjarRelevanSD[0]->total_relevan_sd : 0; ?>,
+            "tidak_relevan": <?php echo !empty($getGuruAjarTidakRelevanSD[0]->total_tidak_relevan_sd) ? $getGuruAjarTidakRelevanSD[0]->total_tidak_relevan_sd : 0; ?>,
+        }, {
+            "year": "SMP",
+            "relevan": <?php echo !empty($getGuruAjarRelevanSMP[0]->total_relevan_smp) ? $getGuruAjarRelevanSMP[0]->total_relevan_smp : 0; ?>,
+            "tidak_relevan": <?php echo !empty($getGuruAjarTidakRelevanSMP[0]->total_tidak_relevan_smp) ? $getGuruAjarTidakRelevanSMP[0]->total_tidak_relevan_smp : 0; ?>,
+        }],
+        "valueAxes": [{
+            "stackType": "regular",
+            "axisAlpha": 0.5,
+            "gridAlpha": 0
+        }],
+        "graphs": [{
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Relevan",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "relevan"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "Tidak Relevan",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "tidak_relevan"
+        }, ],
+        "rotate": true,
+        "categoryField": "year",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "position": "left"
+        },
+        "export": {
+            "enabled": true
+        }
+    });
+</script>
+<!-- End of grafik Tab 4 -->
 
 <section class="content">
     <div class="container-fluid">
@@ -698,16 +767,18 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="keeratan">
-                                <b>Settings Content</b>
-                                <p>
-                                    Lorem ipsum dolor sit amet, ut duo atqui exerci dicunt, ius impedit mediocritatem an. Pri ut tation electram moderatius.
-                                    Per te suavitate democritum. Duis nemore probatus ne quo, ad liber essent aliquid
-                                    pro. Et eos nusquam accumsan, vide mentitum fabellas ne est, eu munere gubergren
-                                    sadipscing mel.
-                                </p>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="header">
+                                            <h5> Keeratan Guru Berdasarakan Tingkatan </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <div id="chartdiv_1_bagian_4"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

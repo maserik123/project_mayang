@@ -46,9 +46,30 @@ class Visualisasi extends CI_Controller
         $view['sopanSantunSMP'] = $this->Visualisasi_model->sopanSantunSMP();
         $view['kejujuranSMP'] = $this->Visualisasi_model->kejujuranSMP();
 
+        $view['getGuruAjarRelevanTK'] = $this->Visualisasi_model->getGuruAjarRelevanTK();
+        $view['getGuruAjarTidakRelevanTK'] = $this->Visualisasi_model->getGuruAjarTidakRelevanTK();
+        $view['getGuruAjarRelevanSD'] = $this->Visualisasi_model->getGuruAjarRelevanSD();
+        $view['getGuruAjarTidakRelevanSD'] = $this->Visualisasi_model->getGuruAjarTidakRelevanSD();
+        $view['getGuruAjarRelevanSMP'] = $this->Visualisasi_model->getGuruAjarRelevanSMP();
+        $view['getGuruAjarTidakRelevanSMP'] = $this->Visualisasi_model->getGuruAjarTidakRelevanSMP();
+
         $this->load->view('templates/header', $view);
         $this->load->view('templates/sidebar', $view);
         $this->load->view('visualisasi', $view);
+        $this->load->view('templates/footer');
+    }
+
+    public function performanceIndicators($param = "", $id = "")
+    {
+        if (!empty($tahun)) {
+            $view['tahun'] = $tahun;
+        }
+        $view['title'] = 'Halaman Visualisasi';
+        $view['active_kpi'] = 'active';
+
+        $this->load->view('templates/header', $view);
+        $this->load->view('templates/sidebar', $view);
+        $this->load->view('visualisasi_kpi', $view);
         $this->load->view('templates/footer');
     }
 }
