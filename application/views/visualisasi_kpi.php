@@ -21,10 +21,13 @@
         "marginRight": 10,
         "dataProvider": [{
             "year": "2001",
-            "value": 0.411
+            "value": 0.411,
+            "value1": 0.21
         }, {
             "year": "2002",
-            "value": 0.462
+            "value": 0.462,
+            "value1": 0.21
+
         }, {
             "year": "2003",
             "value": 0.47
@@ -49,6 +52,16 @@
             "negativeLineColor": "#637bb6",
             "type": "smoothedLine",
             "valueField": "value"
+        }, {
+            "id": "g2",
+            "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+            "bullet": "round",
+            "bulletSize": 8,
+            "lineColor": "#d1655d",
+            "lineThickness": 2,
+            "negativeLineColor": "#637bb6",
+            "type": "smoothedLine",
+            "valueField": "value1"
         }],
         "chartScrollbar": {
             "graph": "g1",
