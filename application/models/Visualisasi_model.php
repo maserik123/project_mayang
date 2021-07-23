@@ -253,7 +253,7 @@ class Visualisasi_model extends CI_Model
     // Bagian tanggung jawab TK
     public function tanggungJawabTK()
     {
-        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_tk, fks.tanggungjawab');
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_tk, count(fks.id_karakter_siswa) as total_tk, fks.tanggungjawab');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -264,7 +264,7 @@ class Visualisasi_model extends CI_Model
 
     public function disiplinTK()
     {
-        $this->db->select('count(fks.disiplin) as total_disiplin_tk, fks.disiplin');
+        $this->db->select('count(fks.disiplin) as total_disiplin_tk,count(fks.id_karakter_siswa) as total_tk, fks.disiplin');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -275,7 +275,7 @@ class Visualisasi_model extends CI_Model
 
     public function kepemimpinanTK()
     {
-        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_tk, fks.kepemimpinan');
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_tk, count(fks.id_karakter_siswa) as total_tk, fks.kepemimpinan');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -286,7 +286,7 @@ class Visualisasi_model extends CI_Model
 
     public function sopanSantunTK()
     {
-        $this->db->select('count(fks.sopansantun) as total_sopansantun_tk, fks.sopansantun');
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_tk, count(fks.id_karakter_siswa) as total_tk, fks.sopansantun');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -297,7 +297,7 @@ class Visualisasi_model extends CI_Model
 
     public function kejujuranTK()
     {
-        $this->db->select('count(fks.kejujuran) as total_kejujuran_tk, fks.kejujuran');
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_tk, count(fks.id_karakter_siswa) as total_tk, fks.kejujuran');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -310,7 +310,7 @@ class Visualisasi_model extends CI_Model
     // Start of Bagian SD
     public function tanggungJawabSD()
     {
-        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_sd, fks.tanggungjawab');
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_sd, count(fks.id_karakter_siswa) as total_sd, fks.tanggungjawab');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -321,7 +321,7 @@ class Visualisasi_model extends CI_Model
 
     public function disiplinSD()
     {
-        $this->db->select('count(fks.disiplin) as total_disiplin_sd, fks.disiplin');
+        $this->db->select('count(fks.disiplin) as total_disiplin_sd, count(fks.id_karakter_siswa) as total_sd, fks.disiplin');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -332,7 +332,7 @@ class Visualisasi_model extends CI_Model
 
     public function kepemimpinanSD()
     {
-        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_sd, fks.kepemimpinan');
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_sd, count(fks.id_karakter_siswa) as total_sd, fks.kepemimpinan');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -343,7 +343,7 @@ class Visualisasi_model extends CI_Model
 
     public function sopanSantunSD()
     {
-        $this->db->select('count(fks.sopansantun) as total_sopansantun_sd, fks.sopansantun');
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_sd, count(fks.id_karakter_siswa) as total_sd, fks.sopansantun');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -354,7 +354,7 @@ class Visualisasi_model extends CI_Model
 
     public function kejujuranSD()
     {
-        $this->db->select('count(fks.kejujuran) as total_kejujuran_sd, fks.kejujuran');
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_sd, count(fks.id_karakter_siswa) as total_sd, fks.kejujuran');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -368,7 +368,7 @@ class Visualisasi_model extends CI_Model
     // Start of Bagian SMP
     public function tanggungJawabSMP()
     {
-        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_smp, fks.tanggungjawab');
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_smp, count(fks.id_karakter_siswa) as total_smp, fks.tanggungjawab');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -379,7 +379,7 @@ class Visualisasi_model extends CI_Model
 
     public function disiplinSMP()
     {
-        $this->db->select('count(fks.disiplin) as total_disiplin_smp, fks.disiplin');
+        $this->db->select('count(fks.disiplin) as total_disiplin_smp, count(fks.id_karakter_siswa) as total_smp, fks.disiplin');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -390,7 +390,7 @@ class Visualisasi_model extends CI_Model
 
     public function kepemimpinanSMP()
     {
-        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_smp, fks.kepemimpinan');
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_smp, count(fks.id_karakter_siswa) as total_smp, fks.kepemimpinan');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -401,7 +401,7 @@ class Visualisasi_model extends CI_Model
 
     public function sopanSantunSMP()
     {
-        $this->db->select('count(fks.sopansantun) as total_sopansantun_smp, fks.sopansantun');
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_smp, count(fks.id_karakter_siswa) as total_smp, fks.sopansantun');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
@@ -412,7 +412,7 @@ class Visualisasi_model extends CI_Model
 
     public function kejujuranSMP()
     {
-        $this->db->select('count(fks.kejujuran) as total_kejujuran_smp, fks.kejujuran');
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_smp, count(fks.id_karakter_siswa) as total_smp, fks.kejujuran');
         $this->db->from('fact_karakter_siswa fks');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
