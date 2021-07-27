@@ -92,6 +92,8 @@ class Visualisasi extends CI_Controller
         $view['getAkademik'] = $this->Visualisasi_model->getAkademikNonAkademik('Akademik');
         $view['getNonAkademik'] = $this->Visualisasi_model->getAkademikNonAkademik('Non-Akademik');
 
+        $view['getAllAkademikNonAkademik'] = $this->Visualisasi_model->getAllAkademikNonAkademik();
+
         $this->load->view('templates/header', $view);
         $this->load->view('templates/sidebar', $view);
         $this->load->view('visualisasi', $view);

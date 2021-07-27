@@ -785,10 +785,16 @@ class Visualisasi_model extends CI_Model
         $this->db->where('dw.tahun', $tahun);
         return $this->db->get()->result();
     }
-
-
     // End grafik bagian prestasi
 
+    function getAllAkademikNonAkademik()
+    {
+        $this->db->select('count(fp.id_fact_prestasi) as total, dp.kategori');
+        $this->db->from('fact_prestasi fp');
+        $this->db->join('dim_prestasi dp', 'dp.id_prestasi = fp.id_prestasi', 'left');
+        $this->db->group_by('dp.kategori');
+        return $this->db->get()->result();
+    }
 }
 
 /* End of file Visualisasi_model.php */

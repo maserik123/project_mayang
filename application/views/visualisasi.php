@@ -65,12 +65,19 @@
         height: 500px;
         font-size: 10px;
     }
+
+    #grafik_jenis_prestasi {
+        width: 100%;
+        height: 300px;
+        font-size: 10px;
+    }
 </style>
 
 <!-- Resources -->
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/material.js"></script>
+<!-- <script src="https://cdn.amcharts.com/lib/4/themes/material.js"></script> -->
+<script src="https://cdn.amcharts.com/lib/4/themes/kelly.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
 <!-- Resources -->
@@ -629,6 +636,35 @@
 </script>
 <!-- End Chart nonAkademik-->
 
+<!-- Chart pie akademikNonAkademik -->
+<script>
+    am4core.ready(function() {
+
+        // Themes begin
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        var chart = am4core.create("grafik_jenis_prestasi", am4charts.PieChart3D);
+        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+        chart.legend = new am4charts.Legend();
+
+        chart.data = [
+            <?php foreach ($getAllAkademikNonAkademik as $row) { ?> {
+                    country: "<?php echo $row->kategori; ?>",
+                    litres: <?php echo $row->total; ?>
+                },
+            <?php } ?>
+        ];
+
+        var series = chart.series.push(new am4charts.PieSeries3D());
+        series.dataFields.value = "litres";
+        series.dataFields.category = "country";
+
+    }); // end am4core.ready()
+</script>
+<!-- End pie chart -->
+
 <!-- End grafik bagian 2 -->
 
 <!-- Grafik bagian tab 3 -->
@@ -932,6 +968,16 @@
                                             <?php } ?>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-12">
+                                        <div class="header">
+                                            <h5> Perbandingan Jenis Prestasi </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <div id="grafik_jenis_prestasi"></div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="header">
                                             <h5> Jenis Prestasi Akademik</h5>
