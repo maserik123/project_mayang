@@ -47,6 +47,24 @@
         height: 400px;
         font-size: 10px;
     }
+
+    #grafik_tab_2 {
+        width: 100%;
+        height: 500px;
+        font-size: 10px;
+    }
+
+    #grafik_tab_2_Akademik {
+        width: 100%;
+        height: 500px;
+        font-size: 10px;
+    }
+
+    #grafik_tab_2_nonAkademik {
+        width: 100%;
+        height: 500px;
+        font-size: 10px;
+    }
 </style>
 
 <!-- Resources -->
@@ -60,6 +78,7 @@
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
 
 <!-- Bagian Grafik Tab 1 -->
 <!-- Chart Bagian absensi ketidakhadiran laki-laki-->
@@ -398,51 +417,135 @@
 <!-- Grafik bagian tab 2 -->
 
 <!-- Chart 1 -->
+
+<!-- Grafik 2 -->
+<!-- Chart code -->
 <script>
-    var chart = AmCharts.makeChart("chartdiv_bagian_2", {
-        "theme": "none",
+    var chart = AmCharts.makeChart("grafik_tab_2", {
         "type": "serial",
+        "theme": "none",
+        "categoryField": "year",
+        "rotate": true,
         "legend": {
             "horizontalGap": 10,
             "position": "bottom",
             "useGraphSettings": true,
             "markerSize": 10
         },
+        "startDuration": 1,
+        "categoryAxis": {
+            "gridPosition": "start",
+            "position": "left"
+        },
+        "trendLines": [],
+        "graphs": [{
+                "balloonText": "Absensi:[[value]]",
+                "fillAlphas": 0.8,
+                "id": "AmGraph-1",
+                "lineAlpha": 0.2,
+                "title": "Absensi",
+                "type": "column",
+                "valueField": "absensi"
+            },
+            {
+                "balloonText": "Prestasi:[[value]]",
+                "fillAlphas": 0.8,
+                "id": "AmGraph-2",
+                "lineAlpha": 0.2,
+                "title": "Prestasi",
+                "type": "column",
+                "valueField": "prestasi"
+            }
+        ],
+        "guides": [],
+        "valueAxes": [{
+            "id": "ValueAxis-1",
+            "position": "top",
+            "axisAlpha": 0
+        }],
+        "allLabels": [],
+        "balloon": {},
+        "titles": [],
         "dataProvider": [
             <?php foreach ($getPerbandinganPrestasiAbsensi as $row) { ?> {
-                    "country": "<?php echo !empty($row->tahun) ? $row->tahun : 0; ?>",
+                    "year": "<?php echo !empty($row->tahun) ? $row->tahun : 0; ?>",
                     "absensi": "<?php echo !empty($row->total_absensi) ? $row->total_absensi : 0; ?>",
-                    "prestasi": "<?php echo !empty($row->total_prestasi) ? $row->total_prestasi : 0; ?>",
+                    "prestasi": "<?php echo !empty($row->total_prestasi) ? $row->total_prestasi : 0; ?>"
+                },
+            <?php } ?>
+        ],
+        "export": {
+            "enabled": true
+        }
+
+    });
+</script>
+
+<!-- Chart 2 Akademik-->
+<script>
+    var chart = AmCharts.makeChart("grafik_tab_2_Akademik", {
+        "type": "serial",
+        "theme": "none",
+        "legend": {
+            "horizontalGap": 10,
+            "maxColumns": 1,
+            "position": "bottom",
+            "useGraphSettings": true,
+            "markerSize": 10
+        },
+        "dataProvider": [
+            <?php foreach ($getAkademik as $t) {
+                $getTingkatanTKByTahun = $this->Visualisasi_model->getTingkatanByTahun('Akademik', 'TK', $t->tahun);
+                $getTingkatanSDByTahun = $this->Visualisasi_model->getTingkatanByTahun('Akademik', 'SD', $t->tahun);
+                $getTingkatanSMPByTahun = $this->Visualisasi_model->getTingkatanByTahun('Akademik', 'SMP', $t->tahun);
+
+            ?> {
+                    "year": "<?php echo $t->tahun; ?>",
+                    "tk": <?php echo empty($getTingkatanTKByTahun[0]->total) ? 0 : $getTingkatanTKByTahun[0]->total; ?>,
+                    "sd": <?php echo empty($getTingkatanSDByTahun[0]->total) ? 0 : $getTingkatanSDByTahun[0]->total; ?>,
+                    "smp": <?php echo empty($getTingkatanSMPByTahun[0]->total) ? 0 : $getTingkatanSMPByTahun[0]->total; ?>,
                 },
             <?php } ?>
         ],
         "valueAxes": [{
-            "unit": "%",
-            "position": "left",
-            "title": "Perbandingan Prestasi dengan Absensi (Alpa)",
+            "stackType": "regular",
+            "axisAlpha": 0.3,
+            "gridAlpha": 0
         }],
-        "startDuration": 1,
         "graphs": [{
-            "balloonText": "Absensi: <b>[[value]]</b>",
-            "fillAlphas": 0.9,
-            "lineAlpha": 0.2,
-            "title": "Absensi",
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "TK",
             "type": "column",
-            "valueField": "absensi"
+            "color": "#000000",
+            "valueField": "tk"
         }, {
-            "balloonText": "Prestasi: <b>[[value]]</b>",
-            "fillAlphas": 0.9,
-            "lineAlpha": 0.2,
-            "title": "Prestasi",
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "SD",
             "type": "column",
-            "clustered": false,
-            "columnWidth": 0.5,
-            "valueField": "prestasi"
-        }],
-        "plotAreaFillAlphas": 0.1,
-        "categoryField": "country",
+            "color": "#000000",
+            "valueField": "sd"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "SMP",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "smp"
+        }, ],
+        "categoryField": "year",
         "categoryAxis": {
-            "gridPosition": "start"
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "position": "left"
         },
         "export": {
             "enabled": true
@@ -450,7 +553,81 @@
 
     });
 </script>
-<!-- End Chart 1 -->
+<!-- End Chart Akademik-->
+
+<!-- Chart 2 nonAkademik-->
+<script>
+    var chart = AmCharts.makeChart("grafik_tab_2_nonAkademik", {
+        "type": "serial",
+        "theme": "none",
+        "legend": {
+            "horizontalGap": 10,
+            "maxColumns": 1,
+            "position": "bottom",
+            "useGraphSettings": true,
+            "markerSize": 10
+        },
+        "dataProvider": [
+            <?php foreach ($getNonAkademik as $t) {
+                $getTingkatanTKByTahun = $this->Visualisasi_model->getTingkatanByTahun('Non-Akademik', 'TK', $t->tahun);
+                $getTingkatanSDByTahun = $this->Visualisasi_model->getTingkatanByTahun('Non-Akademik', 'SD', $t->tahun);
+                $getTingkatanSMPByTahun = $this->Visualisasi_model->getTingkatanByTahun('Non-Akademik', 'SMP', $t->tahun);
+
+            ?> {
+                    "year": "<?php echo $t->tahun; ?>",
+                    "tk": <?php echo empty($getTingkatanTKByTahun[0]->total) ? 0 : $getTingkatanTKByTahun[0]->total; ?>,
+                    "sd": <?php echo empty($getTingkatanSDByTahun[0]->total) ? 0 : $getTingkatanSDByTahun[0]->total; ?>,
+                    "smp": <?php echo empty($getTingkatanSMPByTahun[0]->total) ? 0 : $getTingkatanSMPByTahun[0]->total; ?>,
+                },
+            <?php } ?>
+        ],
+        "valueAxes": [{
+            "stackType": "regular",
+            "axisAlpha": 0.3,
+            "gridAlpha": 0
+        }],
+        "graphs": [{
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "TK",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "tk"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "SD",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "sd"
+        }, {
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "fillAlphas": 0.8,
+            "labelText": "[[value]]",
+            "lineAlpha": 0.3,
+            "title": "SMP",
+            "type": "column",
+            "color": "#000000",
+            "valueField": "smp"
+        }, ],
+        "categoryField": "year",
+        "categoryAxis": {
+            "gridPosition": "start",
+            "axisAlpha": 0,
+            "gridAlpha": 0,
+            "position": "left"
+        },
+        "export": {
+            "enabled": true
+        }
+
+    });
+</script>
+<!-- End Chart nonAkademik-->
 
 <!-- End grafik bagian 2 -->
 
@@ -470,25 +647,25 @@
         },
         "dataProvider": [{
             "year": "TK",
-            "tanggung_jawab": <?php echo !empty($tanggungJawabTK[0]->total_tanggung_jawab_tk) ? (($tanggungJawabTK[0]->total_tanggung_jawab_tk / $tanggungJawabTK[0]->total_tk) * 100) : 0; ?>,
-            "disiplin": <?php echo !empty($disiplinTK[0]->total_disiplin_tk) ? (($disiplinTK[0]->total_disiplin_tk / $disiplinTK[0]->total_tk) * 100) : 0; ?>,
-            "kepemimpinan": <?php echo !empty($kepemimpinanTK[0]->total_kepemimpinan_tk) ? (($kepemimpinanTK[0]->total_kepemimpinan_tk / $kepemimpinanTK[0]->total_tk) * 100) : 0; ?>,
-            "sopan_santun": <?php echo !empty($sopanSantunTK[0]->total_sopansantun_tk) ? (($sopanSantunTK[0]->total_sopansantun_tk / $sopanSantunTK[0]->total_tk) * 100)  : 0; ?>,
-            "kejujuran": <?php echo !empty($kejujuranTK[0]->total_kejujuran_tk) ? (($kejujuranTK[0]->total_kejujuran_tk / $kejujuranTK[0]->total_tk) * 100) : 0; ?>,
+            "tanggung_jawab": <?php echo !empty($tanggungJawabTK[0]->total_tanggung_jawab_tk) ? (($tanggungJawabTK[0]->total_tanggung_jawab_tk / $tanggungJawab_TK[0]->total_tk) * 100) : 0; ?>,
+            "disiplin": <?php echo !empty($disiplinTK[0]->total_disiplin_tk) ? (($disiplinTK[0]->total_disiplin_tk / $disiplin_TK[0]->total_tk) * 100) : 0; ?>,
+            "kepemimpinan": <?php echo !empty($kepemimpinanTK[0]->total_kepemimpinan_tk) ? (($kepemimpinanTK[0]->total_kepemimpinan_tk / $kepemimpinan_TK[0]->total_tk) * 100) : 0; ?>,
+            "sopan_santun": <?php echo !empty($sopanSantunTK[0]->total_sopansantun_tk) ? (($sopanSantunTK[0]->total_sopansantun_tk / $sopanSantun_TK[0]->total_tk) * 100)  : 0; ?>,
+            "kejujuran": <?php echo !empty($kejujuranTK[0]->total_kejujuran_tk) ? (($kejujuranTK[0]->total_kejujuran_tk / $kejujuran_TK[0]->total_tk) * 100) : 0; ?>,
         }, {
             "year": "SD",
-            "tanggung_jawab": <?php echo !empty($tanggungJawabSD[0]->total_tanggung_jawab_sd) ? (($tanggungJawabSD[0]->total_tanggung_jawab_sd / $tanggungJawabSD[0]->total_sd) * 100) : 0; ?>,
-            "disiplin": <?php echo !empty($disiplinSD[0]->total_disiplin_sd) ? (($disiplinSD[0]->total_disiplin_sd / $disiplinSD[0]->total_sd) * 100) : 0; ?>,
-            "kepemimpinan": <?php echo !empty($kepemimpinanSD[0]->total_kepemimpinan_sd) ? (($kepemimpinanSD[0]->total_kepemimpinan_sd / $kepemimpinanSD[0]->total_sd) * 100) : 0; ?>,
-            "sopan_santun": <?php echo !empty($sopanSantunSD[0]->total_sopansantun_sd) ? (($sopanSantunSD[0]->total_sopansantun_sd / $sopanSantunSD[0]->total_sd) * 100) : 0; ?>,
-            "kejujuran": <?php echo !empty($kejujuranSD[0]->total_kejujuran_sd) ? (($kejujuranSD[0]->total_kejujuran_sd / $kejujuranSD[0]->total_sd) * 100) : 0; ?>,
+            "tanggung_jawab": <?php echo !empty($tanggungJawabSD[0]->total_tanggung_jawab_sd) ? (($tanggungJawabSD[0]->total_tanggung_jawab_sd / $tanggungJawab_SD[0]->total_sd) * 100) : 0; ?>,
+            "disiplin": <?php echo !empty($disiplinSD[0]->total_disiplin_sd) ? (($disiplinSD[0]->total_disiplin_sd / $disiplin_SD[0]->total_sd) * 100) : 0; ?>,
+            "kepemimpinan": <?php echo !empty($kepemimpinanSD[0]->total_kepemimpinan_sd) ? (($kepemimpinanSD[0]->total_kepemimpinan_sd / $kepemimpinan_SD[0]->total_sd) * 100) : 0; ?>,
+            "sopan_santun": <?php echo !empty($sopanSantunSD[0]->total_sopansantun_sd) ? (($sopanSantunSD[0]->total_sopansantun_sd / $sopanSantun_SD[0]->total_sd) * 100) : 0; ?>,
+            "kejujuran": <?php echo !empty($kejujuranSD[0]->total_kejujuran_sd) ? (($kejujuranSD[0]->total_kejujuran_sd / $kejujuran_SD[0]->total_sd) * 100) : 0; ?>,
         }, {
             "year": "SMP",
-            "tanggung_jawab": <?php echo !empty($tanggungJawabSMP[0]->total_tanggung_jawab_smp) ?  (($tanggungJawabSMP[0]->total_tanggung_jawab_smp / $tanggungJawabSMP[0]->total_smp) * 100) : 0; ?>,
-            "disiplin": <?php echo !empty($disiplinSMP[0]->total_disiplin_smp) ?  (($disiplinSMP[0]->total_disiplin_smp / $disiplinSMP[0]->total_smp) * 100) : 0; ?>,
-            "kepemimpinan": <?php echo !empty($kepemimpinanSMP[0]->total_kepemimpinan_smp) ?  (($kepemimpinanSMP[0]->total_kepemimpinan_smp / $kepemimpinanSMP[0]->total_smp) * 100) : 0; ?>,
-            "sopan_santun": <?php echo !empty($sopanSantunSMP[0]->total_sopansantun_smp) ? (($sopanSantunSMP[0]->total_sopansantun_smp / $sopanSantunSMP[0]->total_smp) * 100) : 0; ?>,
-            "kejujuran": <?php echo !empty($kejujuranSMP[0]->total_kejujuran_smp) ?  (($kejujuranSMP[0]->total_kejujuran_smp / $kejujuranSMP[0]->total_smp) * 100) : 0; ?>,
+            "tanggung_jawab": <?php echo !empty($tanggungJawabSMP[0]->total_tanggung_jawab_smp) ?  (($tanggungJawabSMP[0]->total_tanggung_jawab_smp / $tanggungJawab_SMP[0]->total_smp) * 100) : 0; ?>,
+            "disiplin": <?php echo !empty($disiplinSMP[0]->total_disiplin_smp) ?  (($disiplinSMP[0]->total_disiplin_smp / $disiplin_SMP[0]->total_smp) * 100) : 0; ?>,
+            "kepemimpinan": <?php echo !empty($kepemimpinanSMP[0]->total_kepemimpinan_smp) ?  (($kepemimpinanSMP[0]->total_kepemimpinan_smp / $kepemimpinan_SMP[0]->total_smp) * 100) : 0; ?>,
+            "sopan_santun": <?php echo !empty($sopanSantunSMP[0]->total_sopansantun_smp) ? (($sopanSantunSMP[0]->total_sopansantun_smp / $sopanSantun_SMP[0]->total_smp) * 100) : 0; ?>,
+            "kejujuran": <?php echo !empty($kejujuranSMP[0]->total_kejujuran_smp) ?  (($kejujuranSMP[0]->total_kejujuran_smp / $kejujuran_SMP[0]->total_smp) * 100) : 0; ?>,
         }, ],
         "valueAxes": [{
             "stackType": "regular",
@@ -498,7 +675,7 @@
         "graphs": [{
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $tanggungJawabTK[0]->tanggungjawab == 1 ? 'Sangat Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 2 ? 'Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 3 ? 'Baik' : ($tanggungJawabTK[0]->tanggungjawab == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]] %</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "<?php echo $tanggungJawabTK[0]->tanggungjawab == 1 ? 'Sangat Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 2 ? 'Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 3 ? 'Baik' : ($tanggungJawabTK[0]->tanggungjawab == 4 ? 'Sangat Baik' : ''))) ?> : [[value]] %",
+            "labelText": "<?php echo $tanggungJawabTK[0]->tanggungjawab == 1 ? 'Sangat Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 2 ? 'Buruk' : ($tanggungJawabTK[0]->tanggungjawab == 3 ? 'Baik' : ($tanggungJawabTK[0]->tanggungjawab == 4 ? 'Sangat Baik' : ''))) ?> : <br> [[value]] %",
             "lineAlpha": 0.3,
             "title": "Tanggung Jawab",
             "type": "column",
@@ -507,7 +684,7 @@
         }, {
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $disiplinTK[0]->disiplin == 1 ? 'Sangat Buruk' : ($disiplinTK[0]->disiplin == 2 ? 'Buruk' : ($disiplinTK[0]->disiplin == 3 ? 'Baik' : ($disiplinTK[0]->disiplin == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]] %</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "<?php echo $disiplinTK[0]->disiplin == 1 ? 'Sangat Buruk' : ($disiplinTK[0]->disiplin == 2 ? 'Buruk' : ($disiplinTK[0]->disiplin == 3 ? 'Baik' : ($disiplinTK[0]->disiplin == 4 ? 'Sangat Baik' : ''))) ?> : [[value]] %",
+            "labelText": "<?php echo $disiplinTK[0]->disiplin == 1 ? 'Sangat Buruk' : ($disiplinTK[0]->disiplin == 2 ? 'Buruk' : ($disiplinTK[0]->disiplin == 3 ? 'Baik' : ($disiplinTK[0]->disiplin == 4 ? 'Sangat Baik' : ''))) ?> : <br> [[value]] %",
             "lineAlpha": 0.3,
             "title": "Disiplin",
             "type": "column",
@@ -516,7 +693,7 @@
         }, {
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $kepemimpinanTK[0]->kepemimpinan == 1 ? 'Sangat Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 2 ? 'Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 3 ? 'Baik' : ($kepemimpinanTK[0]->kepemimpinan == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]] %</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "<?php echo $kepemimpinanTK[0]->kepemimpinan == 1 ? 'Sangat Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 2 ? 'Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 3 ? 'Baik' : ($kepemimpinanTK[0]->kepemimpinan == 4 ? 'Sangat Baik' : ''))) ?> : [[value]] %",
+            "labelText": "<?php echo $kepemimpinanTK[0]->kepemimpinan == 1 ? 'Sangat Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 2 ? 'Buruk' : ($kepemimpinanTK[0]->kepemimpinan == 3 ? 'Baik' : ($kepemimpinanTK[0]->kepemimpinan == 4 ? 'Sangat Baik' : ''))) ?> : <br> [[value]] %",
             "lineAlpha": 0.3,
             "title": "Kepemimpinan",
             "type": "column",
@@ -526,7 +703,7 @@
         }, {
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $sopanSantunTK[0]->sopansantun == 1 ? 'Sangat Buruk' : ($sopanSantunTK[0]->sopansantun == 2 ? 'Buruk' : ($sopanSantunTK[0]->sopansantun == 3 ? 'Baik' : ($sopanSantunTK[0]->sopansantun == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]] %</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "<?php echo $sopanSantunTK[0]->sopansantun == 1 ? 'Sangat Buruk' : ($sopanSantunTK[0]->sopansantun == 2 ? 'Buruk' : ($sopanSantunTK[0]->sopansantun == 3 ? 'Baik' : ($sopanSantunTK[0]->sopansantun == 4 ? 'Sangat Baik' : ''))) ?> : [[value]] %",
+            "labelText": "<?php echo $sopanSantunTK[0]->sopansantun == 1 ? 'Sangat Buruk' : ($sopanSantunTK[0]->sopansantun == 2 ? 'Buruk' : ($sopanSantunTK[0]->sopansantun == 3 ? 'Baik' : ($sopanSantunTK[0]->sopansantun == 4 ? 'Sangat Baik' : ''))) ?> : <br> [[value]] %",
             "lineAlpha": 0.3,
             "title": "Sopan Santun",
             "type": "column",
@@ -535,7 +712,7 @@
         }, {
             "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'><?php echo $kejujuranTK[0]->kejujuran == 1 ? 'Sangat Buruk' : ($kejujuranTK[0]->kejujuran == 2 ? 'Buruk' : ($kejujuranTK[0]->kejujuran == 3 ? 'Baik' : ($kejujuranTK[0]->kejujuran == 4 ? 'Sangat Baik' : ''))) ?>: <b>[[value]] %</b></span>",
             "fillAlphas": 0.8,
-            "labelText": "<?php echo $kejujuranTK[0]->kejujuran == 1 ? 'Sangat Buruk' : ($kejujuranTK[0]->kejujuran == 2 ? 'Buruk' : ($kejujuranTK[0]->kejujuran == 3 ? 'Baik' : ($kejujuranTK[0]->kejujuran == 4 ? 'Sangat Baik' : ''))) ?> : [[value]] %",
+            "labelText": "<?php echo $kejujuranTK[0]->kejujuran == 1 ? 'Sangat Buruk' : ($kejujuranTK[0]->kejujuran == 2 ? 'Buruk' : ($kejujuranTK[0]->kejujuran == 3 ? 'Baik' : ($kejujuranTK[0]->kejujuran == 4 ? 'Sangat Baik' : ''))) ?> : <br> [[value]] %",
             "lineAlpha": 0.3,
             "title": "Kejujuran",
             "type": "column",
@@ -590,7 +767,7 @@
             "gridAlpha": 0
         }],
         "graphs": [{
-            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:12px'>[[category]]: <b>[[value]] Relevan</b></span>",
             "fillAlphas": 0.8,
             "labelText": "[[value]]",
             "lineAlpha": 0.3,
@@ -599,7 +776,7 @@
             "color": "#000000",
             "valueField": "relevan"
         }, {
-            "balloonText": "<b>[[title]]</b><br><span style='font-size:14px'>[[category]]: <b>[[value]]</b></span>",
+            "balloonText": "<b>[[title]]</b><br><span style='font-size:12px'>[[category]]: <b>[[value]] Tidak Relevan</b></span>",
             "fillAlphas": 0.8,
             "labelText": "[[value]]",
             "lineAlpha": 0.3,
@@ -638,7 +815,7 @@
                             <li role="presentation" class="active"><a href="#absen1" class="btn bg-green" data-toggle="tab">Ketidakhadiran Siswa</a></li>
                             <li role="presentation"><a href="#absen2" class="btn bg-green" data-toggle="tab">Ketidakhadiran Siswa Terhadap Prestasi</a></li>
                             <li role="presentation"><a href="#karakter" class="btn bg-green" data-toggle="tab">Karakter Siswa</a></li>
-                            <li role="presentation"><a href="#keeratan" class="btn bg-green" data-toggle="tab">Persentase Keeratan Latar Belakang Guru</a></li>
+                            <li role="presentation"><a href="#keeratan" class="btn bg-green" data-toggle="tab">Keeratan Latar Belakang Guru</a></li>
                         </ul>
                     </div>
                     <div class="body">
@@ -664,39 +841,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- ketidakhadiran siswa laki-laki -->
-                                    <div class="col-md-6">
-                                        <div class="header">
-                                            <h5> Ketidakhadiran Tanpa Keterangan (Alpa) Siswa Laki-laki <?php echo $tahun; ?> </h5>
-                                        </div>
-                                        <div class="thumbnail">
-                                            <?php if (!empty($getAbsensiLakiLaki)) { ?>
-                                                <div id="chartdiv_laki"></div>
-                                            <?php } else { ?>
-                                                <div style="height: 300px;text-align:center;">
-                                                    <small>Belum ada data yang ditampilkan untuk tahun <?php echo $tahun; ?>.</small>
-                                                </div>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                    <!-- end of ketidakhadiran siswa laki-laki -->
 
-                                    <!-- start ketidakhadiran siswa perempuan -->
-                                    <div class="col-md-6">
-                                        <div class="header">
-                                            <h5> Ketidakhadiran Tanpa Keterangan (Alpa) Siswa Perempuan <?php echo $tahun; ?> </h5>
-                                        </div>
-                                        <div class="thumbnail">
-                                            <?php if (!empty($getAbsensiPerempuan)) { ?>
-                                                <div id="chartdiv_perempuan"></div>
-                                            <?php } else { ?>
-                                                <div style="height: 300px;text-align:center;">
-                                                    <small>Belum ada data yang ditampilkan untuk tahun <?php echo $tahun; ?>.</small>
-                                                </div>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                    <!-- end of ketidakhadiran siswa perempuan -->
 
                                     <!-- Grafik bagian 4 -->
                                     <div class="col-md-6">
@@ -734,9 +879,43 @@
                                         </div>
                                     </div>
                                     <!-- End of grafik bagian 3 bulat dan batang -->
+
+                                    <!-- ketidakhadiran siswa laki-laki -->
+                                    <div class="col-md-6">
+                                        <div class="header">
+                                            <h5> Ketidakhadiran Tanpa Keterangan (Alpa) Siswa Laki-laki <?php echo $tahun; ?> </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <?php if (!empty($getAbsensiLakiLaki)) { ?>
+                                                <div id="chartdiv_laki"></div>
+                                            <?php } else { ?>
+                                                <div style="height: 300px;text-align:center;">
+                                                    <small>Belum ada data yang ditampilkan untuk tahun <?php echo $tahun; ?>.</small>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                    <!-- end of ketidakhadiran siswa laki-laki -->
+
+                                    <!-- start ketidakhadiran siswa perempuan -->
+                                    <div class="col-md-6">
+                                        <div class="header">
+                                            <h5> Ketidakhadiran Tanpa Keterangan (Alpa) Siswa Perempuan <?php echo $tahun; ?> </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <?php if (!empty($getAbsensiPerempuan)) { ?>
+                                                <div id="chartdiv_perempuan"></div>
+                                            <?php } else { ?>
+                                                <div style="height: 300px;text-align:center;">
+                                                    <small>Belum ada data yang ditampilkan untuk tahun <?php echo $tahun; ?>.</small>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                    <!-- end of ketidakhadiran siswa perempuan -->
+
                                 </div>
                             </div>
-
                             <div role="tabpanel" class="tab-pane fade" id="absen2">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -745,7 +924,30 @@
                                         </div>
                                         <div class="thumbnail">
                                             <?php if (!empty($getPerbandinganPrestasiAbsensi)) { ?>
-                                                <div id="chartdiv_bagian_2"></div>
+                                                <div id="grafik_tab_2"></div>
+                                            <?php } else { ?>
+                                                <div style="height: 300px;text-align:center;">
+                                                    <small>Belum ada data yang ditampilkan untuk tahun <?php echo $tahun; ?>.</small>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="header">
+                                            <h5> Jenis Prestasi Akademik</h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <div id="grafik_tab_2_Akademik"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="header">
+                                            <h5> Jenis Prestasi Non Akademik</h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <?php if (!empty($getPerbandinganPrestasiAbsensi)) { ?>
+                                                <div id="grafik_tab_2_nonAkademik"></div>
                                             <?php } else { ?>
                                                 <div style="height: 300px;text-align:center;">
                                                     <small>Belum ada data yang ditampilkan untuk tahun <?php echo $tahun; ?>.</small>

@@ -305,6 +305,63 @@ class Visualisasi_model extends CI_Model
         $this->db->where('dt.tingkatan', 'TK');
         return $this->db->get()->result();
     }
+
+
+    public function tanggungJawab_TK()
+    {
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_tk, count(fks.id_karakter_siswa) as total_tk, fks.tanggungjawab');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.tanggungjawab');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
+
+    public function disiplin_TK()
+    {
+        $this->db->select('count(fks.disiplin) as total_disiplin_tk,count(fks.id_karakter_siswa) as total_tk, fks.disiplin');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.disiplin');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
+
+    public function kepemimpinan_TK()
+    {
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_tk, count(fks.id_karakter_siswa) as total_tk, fks.kepemimpinan');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.kepemimpinan');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
+
+    public function sopanSantun_TK()
+    {
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_tk, count(fks.id_karakter_siswa) as total_tk, fks.sopansantun');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.sopansantun');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
+
+    public function kejujuran_TK()
+    {
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_tk, count(fks.id_karakter_siswa) as total_tk, fks.kejujuran');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.kejujuran');
+        $this->db->where('dt.tingkatan', 'TK');
+        return $this->db->get()->result();
+    }
+
     // End of Bagian TK
 
     // Start of Bagian SD
@@ -359,6 +416,61 @@ class Visualisasi_model extends CI_Model
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
         $this->db->group_by('fks.kejujuran');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+    // 
+    public function tanggungJawab_SD()
+    {
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_sd, count(fks.id_karakter_siswa) as total_sd, fks.tanggungjawab');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.tanggungjawab');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function disiplin_SD()
+    {
+        $this->db->select('count(fks.disiplin) as total_disiplin_sd, count(fks.id_karakter_siswa) as total_sd, fks.disiplin');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.disiplin');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function kepemimpinan_SD()
+    {
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_sd, count(fks.id_karakter_siswa) as total_sd, fks.kepemimpinan');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.kepemimpinan');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function sopanSantun_SD()
+    {
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_sd, count(fks.id_karakter_siswa) as total_sd, fks.sopansantun');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.sopansantun');
+        $this->db->where('dt.tingkatan', 'SD');
+        return $this->db->get()->result();
+    }
+
+    public function kejujuran_SD()
+    {
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_sd, count(fks.id_karakter_siswa) as total_sd, fks.kejujuran');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.kejujuran');
         $this->db->where('dt.tingkatan', 'SD');
         return $this->db->get()->result();
     }
@@ -421,6 +533,64 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    // 
+
+    public function tanggungJawab_SMP()
+    {
+        $this->db->select('count(fks.tanggungjawab) as total_tanggung_jawab_smp, count(fks.id_karakter_siswa) as total_smp, fks.tanggungjawab');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.tanggungjawab');
+        $this->db->where('dt.tingkatan', 'SMP');
+        return $this->db->get()->result();
+    }
+
+    public function disiplin_SMP()
+    {
+        $this->db->select('count(fks.disiplin) as total_disiplin_smp, count(fks.id_karakter_siswa) as total_smp, fks.disiplin');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.disiplin');
+        $this->db->where('dt.tingkatan', 'SMP');
+        return $this->db->get()->result();
+    }
+
+    public function kepemimpinan_SMP()
+    {
+        $this->db->select('count(fks.kepemimpinan) as total_kepemimpinan_smp, count(fks.id_karakter_siswa) as total_smp, fks.kepemimpinan');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.kepemimpinan');
+        $this->db->where('dt.tingkatan', 'SMP');
+        return $this->db->get()->result();
+    }
+
+    public function sopanSantun_SMP()
+    {
+        $this->db->select('count(fks.sopansantun) as total_sopansantun_smp, count(fks.id_karakter_siswa) as total_smp, fks.sopansantun');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.sopansantun');
+        $this->db->where('dt.tingkatan', 'SMP');
+        return $this->db->get()->result();
+    }
+
+    public function kejujuran_SMP()
+    {
+        $this->db->select('count(fks.kejujuran) as total_kejujuran_smp, count(fks.id_karakter_siswa) as total_smp, fks.kejujuran');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->join('dim_siswa ds', 'ds.id_siswa = fks.id_siswa', 'left');
+        // $this->db->group_by('fks.kejujuran');
+        $this->db->where('dt.tingkatan', 'SMP');
+        return $this->db->get()->result();
+    }
+
+
     // End of SMP
 
     // End of Bagian Tab 3
@@ -428,7 +598,7 @@ class Visualisasi_model extends CI_Model
 
     function getGuruAjarRelevanTK()
     {
-        $this->db->select('count(fga.id_guru_aja) as total_relevan_tk, dt.tingkatan');
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_tk, count(fga.id_guru_aja) as total, dt.tingkatan');
         $this->db->from('fact_guru_ajar fga');
         $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
@@ -441,7 +611,7 @@ class Visualisasi_model extends CI_Model
 
     function getGuruAjarTidakRelevanTK()
     {
-        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_tk, dt.tingkatan');
+        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_tk, count(fga.id_guru_aja) as total, dt.tingkatan');
         $this->db->from('fact_guru_ajar fga');
         $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
@@ -454,7 +624,7 @@ class Visualisasi_model extends CI_Model
 
     function getGuruAjarRelevanSD()
     {
-        $this->db->select('count(fga.id_guru_aja) as total_relevan_sd, dt.tingkatan');
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_sd, count(fga.id_guru_aja) as total, dt.tingkatan');
         $this->db->from('fact_guru_ajar fga');
         $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
@@ -467,7 +637,7 @@ class Visualisasi_model extends CI_Model
 
     function getGuruAjarTidakRelevanSD()
     {
-        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_sd, dt.tingkatan');
+        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_sd, count(fga.id_guru_aja) as total, dt.tingkatan');
         $this->db->from('fact_guru_ajar fga');
         $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
@@ -481,7 +651,7 @@ class Visualisasi_model extends CI_Model
 
     function getGuruAjarRelevanSMP()
     {
-        $this->db->select('count(fga.id_guru_aja) as total_relevan_smp, dt.tingkatan');
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_smp, count(fga.id_guru_aja) as total, dt.tingkatan');
         $this->db->from('fact_guru_ajar fga');
         $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
@@ -494,7 +664,88 @@ class Visualisasi_model extends CI_Model
 
     function getGuruAjarTidakRelevanSMP()
     {
-        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_smp, dt.tingkatan');
+        $this->db->select('count(fga.id_tingkatan) as total_tidak_relevan_smp, count(fga.id_guru_aja) as total, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'SMP');
+        $this->db->where('dg.relevan', 'Tidak Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    // 
+
+    function getGuruAjarRelevan_TK()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_tk, count(fga.id_guru_aja) as total, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'TK');
+        $this->db->where('dg.relevan', 'Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    function getGuruAjarTidakRelevan_TK()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_tk, count(fga.id_guru_aja) as total, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'TK');
+        $this->db->where('dg.relevan', 'Tidak Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    function getGuruAjarRelevan_SD()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_sd, count(fga.id_guru_aja) as total, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        // $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'SD');
+        $this->db->where('dg.relevan', 'Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    function getGuruAjarTidakRelevan_SD()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_tidak_relevan_sd, count(fga.id_guru_aja) as total, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'SD');
+        $this->db->where('dg.relevan', 'Tidak Relevan');
+
+        return $this->db->get()->result();
+    }
+
+
+    function getGuruAjarRelevan_SMP()
+    {
+        $this->db->select('count(fga.id_guru_aja) as total_relevan_smp, count(fga.id_guru_aja) as total, dt.tingkatan');
+        $this->db->from('fact_guru_ajar fga');
+        $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', 'SMP');
+        $this->db->where('dg.relevan', 'Relevan');
+
+        return $this->db->get()->result();
+    }
+
+    function getGuruAjarTidakRelevan_SMP()
+    {
+        $this->db->select('count(fga.id_tingkatan) as total_tidak_relevan_smp, count(fga.id_guru_aja) as total, dt.tingkatan');
         $this->db->from('fact_guru_ajar fga');
         $this->db->join('dim_guru dg', 'dg.id_guru = fga.id_guru', 'left');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fga.id_tingkatan', 'left');
@@ -507,7 +758,36 @@ class Visualisasi_model extends CI_Model
 
     // End of Bagian Tab 4
 
+    // Grafik bagian prestasi
 
+
+    public function getAkademikNonAkademik($kategori)
+    {
+        $this->db->select('count(fp.id_fact_prestasi) as total, dt.tingkatan, dw.tahun');
+        $this->db->from('fact_prestasi fp');
+        $this->db->join('dim_prestasi dp', 'dp.id_prestasi = fp.id_prestasi', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fp.id_tingkatan', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fp.id_waktu', 'left');
+        $this->db->group_by('dw.tahun');
+        $this->db->where('dp.kategori', $kategori);
+        return $this->db->get()->result();
+    }
+
+    function getTingkatanByTahun($kategori, $tingkatan, $tahun)
+    {
+        $this->db->select('count(fp.id_fact_prestasi) as total, dt.tingkatan');
+        $this->db->from('fact_prestasi fp');
+        $this->db->join('dim_prestasi dp', 'dp.id_prestasi = fp.id_prestasi', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fp.id_tingkatan', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fp.id_waktu', 'left');
+        $this->db->where('dp.kategori', $kategori);
+        $this->db->where('dt.tingkatan', $tingkatan);
+        $this->db->where('dw.tahun', $tahun);
+        return $this->db->get()->result();
+    }
+
+
+    // End grafik bagian prestasi
 
 }
 
