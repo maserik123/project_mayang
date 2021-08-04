@@ -795,6 +795,111 @@ class Visualisasi_model extends CI_Model
         $this->db->group_by('dp.kategori');
         return $this->db->get()->result();
     }
+
+    // Diagram Komparasi bagian beranda dashboard
+
+    function getKomparasiKarakter()
+    {
+        $this->db->select('');
+        $this->db->from('fact_karakter_siswa fk');
+        $this->db->order_by('id_karakter_siswa', 'desc');
+        return $this->db->get()->result();
+    }
+
+    function getBerandaAbsensi()
+    {
+        $this->db->select('(count(fa.id_fact_absensi)*33.3) as total');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->where('da.absensi', 'Alpa');
+
+        return $this->db->get()->result();
+    }
+
+    function getBerandaKarakter()
+    {
+        $this->db->select('count(id_karakter_siswa) as total');
+        $this->db->from('fact_karakter_siswa');
+        return $this->db->get()->result();
+    }
+
+    function getBerandaPrestasi()
+    {
+        $this->db->select('count(id_fact_prestasi) * 33.3 as total');
+        $this->db->from('fact_prestasi');
+        return $this->db->get()->result();
+    }
+
+    function getPerbandinganAbsensi()
+    {
+        $this->db->select('dw.tahun');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
+        $this->db->group_by('dw.tahun');
+        return $this->db->get()->result();
+    }
+
+    function getPerbandinganAbsensiTingkatan($tahun, $tingkat)
+    {
+        $this->db->select('dw.tahun, count(fa.id_fact_absensi) as total');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
+        $this->db->where('dw.tahun', $tahun);
+        $this->db->where('dt.tingkatan', $tingkat);
+        return $this->db->get()->result();
+    }
+
+    function getPerbandinganPrestasi()
+    {
+        $this->db->select('dw.tahun');
+        $this->db->from('fact_prestasi fp');
+        $this->db->join('dim_prestasi dp', 'dp.id_prestasi = fp.id_prestasi', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fp.id_tingkatan', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fp.id_waktu', 'left');
+        $this->db->group_by('dw.tahun');
+        return $this->db->get()->result();
+    }
+
+    function getPerbandinganPrestasiTingkatan($tahun, $tingkat)
+    {
+        $this->db->select('dw.tahun, count(fp.id_fact_prestasi) as total');
+        $this->db->from('fact_prestasi fp');
+        $this->db->join('dim_prestasi dp', 'dp.id_prestasi = fp.id_prestasi', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fp.id_tingkatan', 'left');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fp.id_waktu', 'left');
+        $this->db->where('dw.tahun', $tahun);
+        $this->db->where('dt.tingkatan', $tingkat);
+        return $this->db->get()->result();
+    }
+
+    public function getPerbandinganKarakter()
+    {
+        $this->db->select('dt.tingkatan');
+        $this->db->select('AVG(fks.tanggungjawab)*25 as persentase_tanggungJawab');
+        $this->db->select('AVG(fks.kepemimpinan)*25 as persentase_kepemimpinan');
+        $this->db->select('AVG(fks.disiplin)*25 as Persentase_Disiplin');
+        $this->db->select('AVG(fks.sopansantun)*25 as Persentase_SopanSantun');
+        $this->db->select('AVG(fks.kejujuran)*25 as Persentase_Kejujuran');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        $this->db->group_by('dt.tingkatan');
+        return $this->db->get()->result();
+    }
+
+
+    public function getKomparasiDataKarakterBeranda()
+    {
+        $this->db->select('dt.tingkatan');
+        $this->db->select('((((AVG(fks.tanggungjawab)*25) + (AVG(fks.kepemimpinan)*25) + (AVG(fks.disiplin)*25) + (AVG(fks.sopansantun)*25) + (AVG(fks.kejujuran)*25))/5)*33.3) as total');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        // $this->db->group_by('dt.tingkatan');
+        return $this->db->get()->result();
+    }
 }
 
 /* End of file Visualisasi_model.php */

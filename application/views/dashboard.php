@@ -1,10 +1,23 @@
 <!-- Styles -->
 <style>
-    #chartdiv {
+    #all {
         width: 100%;
-        height: 500px;
+        height: 300px;
+    }
+
+    #komparasiKarakter {
+        width: 100%;
+        height: 300px;
     }
 </style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/pie.js"></script>
+<script src="https://www.amcharts.com/lib/3/radar.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+
 
 <!-- Resources -->
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
@@ -13,45 +26,70 @@
 
 <!-- Chart code -->
 <script>
-    am4core.ready(function() {
+    var chart = AmCharts.makeChart("all", {
+        "type": "pie",
+        "theme": "none",
 
-        // Themes begin
-        am4core.useTheme(am4themes_animated);
-        // Themes end
+        "dataProvider": [{
+            "country": "Kognitif",
+            "value": <?php echo $getBerandaPrestasi[0]->total; ?>
+        }, {
+            "country": "Afektif",
+            "value": <?php echo $getKomparasiDataKarakterBeranda[0]->total; ?>
+        }, {
+            "country": "Konatif",
+            "value": <?php echo $getBerandaAbsensi[0]->total; ?>
+        }, ],
+        "valueField": "value",
+        "titleField": "country",
+        "outlineAlpha": 0.4,
+        "depth3D": 15,
+        "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+        "angle": 30,
 
-        var chart = am4core.create("chartdiv", am4charts.PieChart3D);
-        chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
-        chart.legend = new am4charts.Legend();
-
-        chart.data = [{
-                country: "Lithuania",
-                litres: 501.9
-            },
-            {
-                country: "Czech Republic",
-                litres: 301.9
-            },
-            {
-                country: "Ireland",
-                litres: 201.1
-            },
-
-        ];
-
-        var series = chart.series.push(new am4charts.PieSeries3D());
-        series.dataFields.value = "litres";
-        series.dataFields.category = "country";
-
-    }); // end am4core.ready()
+    });
 </script>
+
+<!-- Diagram Komparasi Karakter -->
+<!-- Chart code -->
+<script>
+    var chart = AmCharts.makeChart("karakter_tanggungjawab", {
+        "type": "radar",
+        "theme": "none",
+        "dataProvider": [{
+            "country": "Kognitif",
+            "litres": <?php echo $getBerandaPrestasi[0]->total; ?>
+        }, {
+            "country": "Afektif",
+            "litres": <?php echo $getKomparasiDataKarakterBeranda[0]->total; ?>
+        }, {
+            "country": "Konatif",
+            "litres": <?php echo $getBerandaAbsensi[0]->total; ?>
+        }, ],
+        "valueAxes": [{
+            "axisTitleOffset": 20,
+            "minimum": 0,
+            "axisAlpha": 0.15
+        }],
+        "startDuration": 2,
+        "graphs": [{
+            "balloonText": "[[value]] litres of beer per year",
+            "bullet": "round",
+            "lineThickness": 2,
+            "valueField": "litres"
+        }],
+        "categoryField": "country",
+
+    });
+</script>
+
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
             <h2>Absensi</h2>
         </div>
 
-        <!-- Absensi -->
+        <!-- summary bagian pertama -->
         <div class="row clearfix">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box bg-pink hover-expand-effect">
@@ -89,9 +127,7 @@
         </div>
         <!-- #END# Absensi -->
 
-
-
-        <!-- Absensi -->
+        <!-- Summary bagian kedua -->
         <div class="row clearfix">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box bg-grey hover-expand-effect">
@@ -129,21 +165,15 @@
         </div>
         <!-- #END# Absensi -->
 
-
         <!-- CPU Usage -->
         <div class="row clearfix">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="card">
                     <div class="header">
                         <div class="row clearfix">
-                            <div class="col-xs-12 col-sm-6">
-                                <h2>CPU USAGE (%)</h2>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 align-right">
-                                <div class="switch panel-switch-btn">
-                                    <span class="m-r-10 font-12">REAL TIME</span>
-                                    <label>OFF<input type="checkbox" id="realtime" checked><span class="lever switch-col-cyan"></span>ON</label>
-                                </div>
+                            <div class="col-xs-12 col-sm-12">
+                                <h2>Komparasi Data</h2>
+                                <small>Komparasi antara data Absensi, Karakter Siswa, dan Prestasi</small>
                             </div>
                         </div>
                         <ul class="header-dropdown m-r--5">
@@ -160,10 +190,40 @@
                         </ul>
                     </div>
                     <div class="body">
-                        <div id="chartdiv" class="dashboard-flot-chart"></div>
+                        <div id="all" class="dashboard-flot-chart"></div>
                     </div>
                 </div>
             </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div class="card">
+                    <div class="header">
+                        <div class="row clearfix">
+                            <div class="col-xs-12 col-sm-12">
+                                <h2>Komparasi Data Karakter</h2>
+                                <small> Statistik karakater Tanggung Jawab</small>
+                            </div>
+
+                        </div>
+                        <ul class="header-dropdown m-r--5">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="material-icons">more_vert</i>
+                                </a>
+                                <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0);">Action</a></li>
+                                    <li><a href="javascript:void(0);">Another action</a></li>
+                                    <li><a href="javascript:void(0);">Something else here</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <div id="karakter_tanggungjawab" class="dashboard-flot-chart"></div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <!-- #END# CPU Usage -->
     </div>

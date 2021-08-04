@@ -94,6 +94,16 @@ class Visualisasi extends CI_Controller
 
         $view['getAllAkademikNonAkademik'] = $this->Visualisasi_model->getAllAkademikNonAkademik();
 
+        // Perbandingan Absensi dan Prestasi
+        $view['getPerbandinganAbsensi'] = $this->Visualisasi_model->getPerbandinganAbsensi();
+        $view['getPerbandinganPrestasi'] = $this->Visualisasi_model->getPerbandinganPrestasi();
+        // end Perbandingan Absensi dan Prestasi
+
+        // Karakter Bagian 3
+        $view['getPerbandinganKarakter'] = $this->Visualisasi_model->getPerbandinganKarakter();
+        // End of karakter bagian 3
+
+
         $this->load->view('templates/header', $view);
         $this->load->view('templates/sidebar', $view);
         $this->load->view('visualisasi', $view);

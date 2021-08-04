@@ -4,6 +4,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Home extends CI_Controller
 {
 
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->load->model('Visualisasi_model');
+	}
+
+
 	/**
 	 * Index Page for this controller.
 	 *
@@ -23,6 +31,11 @@ class Home extends CI_Controller
 	{
 		$view['title'] = 'Halaman Beranda';
 		$view['active_home'] = 'active';
+		$view['getBerandaAbsensi'] = $this->Visualisasi_model->getBerandaAbsensi();
+		$view['getBerandaKarakter'] = $this->Visualisasi_model->getBerandaKarakter();
+		$view['getBerandaPrestasi'] = $this->Visualisasi_model->getBerandaPrestasi();
+		$view['getKomparasiDataKarakterBeranda'] = $this->Visualisasi_model->getKomparasiDataKarakterBeranda();
+
 
 		$this->load->view('templates/header', $view);
 		$this->load->view('templates/sidebar', $view);
