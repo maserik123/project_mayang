@@ -82,7 +82,7 @@
 <!-- Resources -->
 <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<!-- <script src="https://cdn.amcharts.com/lib/4/themes/material.js"></script> -->
+<script src="https://cdn.amcharts.com/lib/4/themes/material.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/kelly.js"></script>
 <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
@@ -99,7 +99,7 @@
     am4core.ready(function() {
 
         // Themes begin
-        am4core.useTheme(am4themes_animated);
+        am4core.useTheme(am4themes_kelly);
         // Themes end
 
         var chart = am4core.create("chartdiv_laki", am4charts.PieChart3D);
@@ -128,7 +128,7 @@
     am4core.ready(function() {
 
         // Themes begin
-        am4core.useTheme(am4themes_animated);
+        am4core.useTheme(am4themes_material);
         // Themes end
 
         var chart = am4core.create("chartdiv_perempuan", am4charts.PieChart3D);

@@ -103,6 +103,10 @@ class Visualisasi extends CI_Controller
         $view['getPerbandinganKarakter'] = $this->Visualisasi_model->getPerbandinganKarakter();
         // End of karakter bagian 3
 
+        // getPerbAbsensi
+        $view['getPerbAbsensi'] = $this->Visualisasi_model->getPerbAbsensi();
+        // End getPerbAbsensi
+
 
         $this->load->view('templates/header', $view);
         $this->load->view('templates/sidebar', $view);

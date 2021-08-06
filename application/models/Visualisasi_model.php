@@ -843,13 +843,14 @@ class Visualisasi_model extends CI_Model
 
     function getPerbandinganAbsensiTingkatan($tahun, $tingkat)
     {
-        $this->db->select('dw.tahun, count(fa.id_fact_absensi) as total');
+        $this->db->select('dw.tahun, count(fa.id_absensi) as total, da.absensi, dt.tingkatan');
         $this->db->from('fact_absensi fa');
         $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
         $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
         $this->db->where('dw.tahun', $tahun);
         $this->db->where('dt.tingkatan', $tingkat);
+        $this->db->where('da.absensi = "Alpa"');
         return $this->db->get()->result();
     }
 
@@ -899,6 +900,12 @@ class Visualisasi_model extends CI_Model
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
         // $this->db->group_by('dt.tingkatan');
         return $this->db->get()->result();
+    }
+
+    function getPerbAbsensi()
+    {
+        return $this->db->query(' select dim_waktu.tahun, count(fact_absensi.id_absensi) as JumlahAbsensi, 
+        dim_absensi.absensi, dim_tingkatan.tingkatan  from fact_absensi join dim_tingkatan on fact_absensi.id_tingkatan=dim_tingkatan.id_tingkatan  join dim_waktu on fact_absensi.id_waktu=dim_waktu.id_waktu  join dim_absensi ON fact_absensi.id_absensi=dim_absensi.id_absensi  WHERE fact_absensi.id_absensi=2  GROUP by dim_waktu.tahun, dim_tingkatan.tingkatan ')->result();
     }
 }
 
