@@ -94,22 +94,20 @@
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box bg-pink hover-expand-effect">
                     <div class="icon">
-                        <i class="material-icons">playlist_add_check</i>
+                        <i class="material-icons">help</i>
                     </div>
                     <div class="content">
                         <div class="text">Jumlah Alpa</div>
-                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
+                        <div class="number "><?php echo $totalKeteranganAlpa[0]->total; ?></div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <div class="info-box bg-cyan hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">help</i>
-                    </div>
+
                     <div class="content">
                         <div class="text">Jumlah Izin</div>
-                        <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
+                        <div class="number "><?php echo $totalKeteranganIzin[0]->total; ?></div>
                     </div>
                 </div>
             </div>
@@ -120,45 +118,7 @@
                     </div>
                     <div class="content">
                         <div class="text">Jumlah Sakit</div>
-                        <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- #END# Absensi -->
-
-        <!-- Summary bagian kedua -->
-        <div class="row clearfix">
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-grey hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">playlist_add_check</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">Jenis Prestasi</div>
-                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-cyan hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">help</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">Jumlah Siswa</div>
-                        <div class="number count-to" data-from="0" data-to="257" data-speed="1000" data-fresh-interval="20"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="info-box bg-light-green hover-expand-effect">
-                    <div class="icon">
-                        <i class="material-icons">forum</i>
-                    </div>
-                    <div class="content">
-                        <div class="text">Jumlah Guru</div>
-                        <div class="number count-to" data-from="0" data-to="243" data-speed="1000" data-fresh-interval="20"></div>
+                        <div class="number "><?php echo $totalKeteranganSakit[0]->total; ?></div>
                     </div>
                 </div>
             </div>

@@ -907,6 +907,15 @@ class Visualisasi_model extends CI_Model
         return $this->db->query(' select dim_waktu.tahun, count(fact_absensi.id_absensi) as JumlahAbsensi, 
         dim_absensi.absensi, dim_tingkatan.tingkatan  from fact_absensi join dim_tingkatan on fact_absensi.id_tingkatan=dim_tingkatan.id_tingkatan  join dim_waktu on fact_absensi.id_waktu=dim_waktu.id_waktu  join dim_absensi ON fact_absensi.id_absensi=dim_absensi.id_absensi  WHERE fact_absensi.id_absensi=2  GROUP by dim_waktu.tahun, dim_tingkatan.tingkatan ')->result();
     }
+
+    function totalKeterangan($keterangan)
+    {
+        $this->db->select('count(fa.id_fact_absensi) as total');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->where('da.absensi', $keterangan);
+        return $this->db->get()->result();
+    }
 }
 
 /* End of file Visualisasi_model.php */

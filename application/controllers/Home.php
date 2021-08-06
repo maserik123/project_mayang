@@ -35,7 +35,9 @@ class Home extends CI_Controller
 		$view['getBerandaKarakter'] = $this->Visualisasi_model->getBerandaKarakter();
 		$view['getBerandaPrestasi'] = $this->Visualisasi_model->getBerandaPrestasi();
 		$view['getKomparasiDataKarakterBeranda'] = $this->Visualisasi_model->getKomparasiDataKarakterBeranda();
-
+		$view['totalKeteranganAlpa'] = $this->Visualisasi_model->totalKeterangan('Alpa');
+		$view['totalKeteranganIzin'] = $this->Visualisasi_model->totalKeterangan('Izin');
+		$view['totalKeteranganSakit'] = $this->Visualisasi_model->totalKeterangan('Sakit');
 
 		$this->load->view('templates/header', $view);
 		$this->load->view('templates/sidebar', $view);
