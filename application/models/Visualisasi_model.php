@@ -44,7 +44,7 @@ class Visualisasi_model extends CI_Model
 
     public function getJenisKelaminAlpaPertahun($tahun)
     {
-        $this->db->select('count(fa.id_fact_absensi) as tot_absen, dt.tingkatan, fa.jenis_kelamin');
+        $this->db->select('count(fa.id_fact_absensi) as tot_absen, dw.tahun, dt.tingkatan, fa.jenis_kelamin');
         $this->db->from('fact_absensi fa');
         $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
         $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fa.id_tingkatan', 'left');
@@ -914,6 +914,20 @@ class Visualisasi_model extends CI_Model
         $this->db->from('fact_absensi fa');
         $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
         $this->db->where('da.absensi', $keterangan);
+        return $this->db->get()->result();
+    }
+
+    // Bagian KPI
+    function getKPIAbsensi()
+    {
+        $this->db->select('count(fa.id_fact_absensi) as total, dw.tahun, ka.nilai_target');
+        $this->db->from('fact_absensi fa');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fa.id_waktu', 'left');
+        $this->db->join('dim_absensi da', 'da.id_absensi = fa.id_absensi', 'left');
+        $this->db->join('kpi_absensi ka', 'ka.tahun = dw.tahun', 'left');
+        $this->db->group_by('dw.tahun');
+        $this->db->order_by('dw.tahun', 'asc');
+        $this->db->where('da.absensi', 'Alpa');
         return $this->db->get()->result();
     }
 }

@@ -167,13 +167,14 @@
             <?php
             $data_warna = ['#FF8C00', '#228B22', '#00CED1'];
             $no = 0;
-            foreach ($getJenisKelaminAlpaPertahun as $row) { ?> {
-                    "category": "<?php echo $row->jenis_kelamin ?>",
-                    "value": <?php echo $row->tot_absen ?>,
+            foreach ($getJenisKelaminAlpaPertahun as $row) {
+                $getAlpaByTingkatanPertahun = $this->Visualisasi_model->getAlpaByTingkatanPertahun($tahun, $row->jenis_kelamin);
+            ?> {
+                    "category": "<?php echo $row->jenis_kelamin; ?>",
+                    "value": <?php echo $row->tot_absen; ?>,
                     "color": am4core.color("<?php echo $data_warna[$no++]; ?>"),
                     "breakdown": [
                         <?php
-                        $getAlpaByTingkatanPertahun = $this->Visualisasi_model->getAlpaByTingkatanPertahun($tahun, $row->jenis_kelamin);
                         foreach ($getAlpaByTingkatanPertahun as $b) { ?> {
                                 "category": "<?php echo $b->tingkatan; ?>",
                                 "value": <?php echo $b->tot_absen; ?>
@@ -921,7 +922,6 @@
     <div class="container-fluid">
         <div class="block-header">
             <h2>Statistics & Visualization</h2>
-
         </div>
         <!-- Siswa Laki-laki -->
         <div class="row clearfix">

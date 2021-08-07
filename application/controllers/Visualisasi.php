@@ -121,6 +121,7 @@ class Visualisasi extends CI_Controller
         }
         $view['title'] = 'Halaman Visualisasi';
         $view['active_kpi'] = 'active';
+        $view['getKPIAbsensi'] = $this->Visualisasi_model->getKPIAbsensi();
 
         $this->load->view('templates/header', $view);
         $this->load->view('templates/sidebar', $view);
