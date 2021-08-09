@@ -30,7 +30,8 @@
 
     <!-- Animation Css -->
     <link href="<?php echo base_url() ?>assets/plugins/animate-css/animate.css" rel="stylesheet" />
-
+    <!-- Sweetalert -->
+    <link href="<?php echo base_url() . 'assets/' ?>plugins/sweetalert/sweetalert.css" rel="stylesheet" />
     <!-- Morris Chart Css-->
     <link href="<?php echo base_url() ?>assets/plugins/morrisjs/morris.css" rel="stylesheet" />
 

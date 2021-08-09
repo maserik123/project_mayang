@@ -891,6 +891,21 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
+    public function getPerbandinganKarakterPerTingkatan($tingkat)
+    {
+        $this->db->select('dt.tingkatan');
+        $this->db->select('fks.tanggungjawab as persentase_tanggungJawab');
+        $this->db->select('fks.kepemimpinan as persentase_kepemimpinan');
+        $this->db->select('fks.disiplin as Persentase_Disiplin');
+        $this->db->select('fks.sopansantun as Persentase_SopanSantun');
+        $this->db->select('fks.kejujuran as Persentase_Kejujuran');
+        $this->db->from('fact_karakter_siswa fks');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fks.id_tingkatan', 'left');
+        // $this->db->group_by('dt.tingkatan');
+        $this->db->where('dt.tingkatan', $tingkat);
+        return $this->db->get()->result();
+    }
+
 
     public function getKomparasiDataKarakterBeranda()
     {
@@ -917,7 +932,7 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    // Bagian KPI
+    // Bagian KPI Absensi
     function getKPIAbsensi()
     {
         $this->db->select('count(fa.id_fact_absensi) as total, dw.tahun, ka.nilai_target');
@@ -929,6 +944,60 @@ class Visualisasi_model extends CI_Model
         $this->db->order_by('dw.tahun', 'asc');
         $this->db->where('da.absensi', 'Alpa');
         return $this->db->get()->result();
+    }
+
+    // Bagian KPI Prestasi
+    function getKPIPrestasi($kategori)
+    {
+        $this->db->select('count(fp.id_fact_prestasi) as total, kp.nilai_target, dw.tahun');
+        $this->db->from('fact_prestasi fp');
+        $this->db->join('dim_waktu dw', 'dw.id_waktu = fp.id_waktu', 'left');
+        $this->db->join('dim_prestasi dp', 'dp.id_prestasi = fp.id_prestasi', 'left');
+        $this->db->join('kpi_prestasi kp', 'kp.tahun = dw.tahun', 'left');
+        $this->db->group_by('dw.tahun');
+        $this->db->order_by('dw.tahun', 'asc');
+        $this->db->where('kp.jenis', $kategori);
+        return $this->db->get()->result();
+    }
+
+    function getNilaiKpiAbsensi()
+    {
+        $this->db->select('*');
+        $this->db->from('kpi_absensi');
+        $this->db->order_by('kpi_absensi_id', 'desc');
+        return $this->db->get()->result();
+    }
+
+    function getNilaiKpiPrestasi()
+    {
+        $this->db->select('*');
+        $this->db->from('kpi_prestasi');
+        $this->db->order_by('kpi_prestasi_id', 'desc');
+        return $this->db->get()->result();
+    }
+
+    public function addDataKpiAbsensi($data)
+    {
+        $this->db->insert('kpi_absensi', $data);
+        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : FALSE;
+    }
+
+    public function addDataKpiPrestasi($data)
+    {
+        $this->db->insert('kpi_prestasi', $data);
+        return $this->db->affected_rows() > 0 ? $this->db->insert_id() : FALSE;
+    }
+
+    function delete_kpiAbsensi($id)
+    {
+        $this->db->where('kpi_absensi_id', $id);
+        $this->db->delete('kpi_absensi');
+    }
+
+    function delete_kpiPrestasi($id)
+    {
+        $this->db->where('kpi_prestasi_id', $id);
+        $this->db->delete('kpi_prestasi');
     }
 }
 

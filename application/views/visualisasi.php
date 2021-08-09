@@ -42,6 +42,12 @@
         font-size: 10px;
     }
 
+    #radar_bagian3 {
+        width: 100%;
+        height: 400px;
+        font-size: 10px;
+    }
+
     #chartdiv_1_bagian_4 {
         width: 100%;
         height: 400px;
@@ -89,6 +95,7 @@
 <!-- Resources -->
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/radar.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
 
@@ -170,14 +177,14 @@
             foreach ($getJenisKelaminAlpaPertahun as $row) {
                 $getAlpaByTingkatanPertahun = $this->Visualisasi_model->getAlpaByTingkatanPertahun($tahun, $row->jenis_kelamin);
             ?> {
-                    "category": "<?php echo $row->jenis_kelamin; ?>",
-                    "value": <?php echo $row->tot_absen; ?>,
+                    "category": "<?php echo !empty($row->jenis_kelamin) ? $row->jenis_kelamin : ''; ?>",
+                    "value": <?php echo !empty($row->tot_absen) ? $row->tot_absen : 0; ?>,
                     "color": am4core.color("<?php echo $data_warna[$no++]; ?>"),
                     "breakdown": [
                         <?php
                         foreach ($getAlpaByTingkatanPertahun as $b) { ?> {
-                                "category": "<?php echo $b->tingkatan; ?>",
-                                "value": <?php echo $b->tot_absen; ?>
+                                "category": "<?php echo !empty($b->tingkatan) ? $b->tingkatan : ''; ?>",
+                                "value": <?php echo !empty($b->tot_absen) ? $b->tot_absen : 0; ?>
                             },
                         <?php } ?>
                     ]
@@ -850,6 +857,97 @@
 
     });
 </script>
+
+<script>
+    var chart = AmCharts.makeChart("radar_bagian3", {
+        "type": "radar",
+        "theme": "dark",
+        "fontFamily": "Sans-Serif",
+        "fontSize": 10,
+        "legend": {
+            "position": "bottom",
+            "fontSize": 10,
+            "fontFamily": "Sans-Serif"
+        },
+        "dataProvider": [{
+            "country": "Tanggung Jawab",
+            "tk": <?php echo $getPerbandinganKarakterTK[0]->persentase_tanggungJawab; ?>,
+            "sd": <?php echo $getPerbandinganKarakterSD[0]->persentase_tanggungJawab; ?>,
+            "smp": <?php echo $getPerbandinganKarakterSMP[0]->persentase_tanggungJawab; ?>
+
+        }, {
+            "country": "Kepemimpinan",
+            "tk": <?php echo $getPerbandinganKarakterTK[0]->persentase_kepemimpinan ?>,
+            "sd": <?php echo $getPerbandinganKarakterSD[0]->persentase_kepemimpinan ?>,
+            "smp": <?php echo $getPerbandinganKarakterSMP[0]->persentase_kepemimpinan ?>
+
+        }, {
+            "country": "Kedisiplinan",
+            "tk": <?php echo $getPerbandinganKarakterTK[0]->Persentase_Disiplin ?>,
+            "sd": <?php echo $getPerbandinganKarakterSD[0]->Persentase_Disiplin ?>,
+            "smp": <?php echo $getPerbandinganKarakterSMP[0]->Persentase_Disiplin ?>
+        }, {
+            "country": "Sopan Santun",
+            "tk": <?php echo $getPerbandinganKarakterTK[0]->Persentase_SopanSantun ?>,
+            "sd": <?php echo $getPerbandinganKarakterSD[0]->Persentase_SopanSantun ?>,
+            "smp": <?php echo $getPerbandinganKarakterSMP[0]->Persentase_SopanSantun ?>
+
+        }, {
+            "country": "Kejujuran",
+            "tk": <?php echo $getPerbandinganKarakterTK[0]->Persentase_Kejujuran ?>,
+            "sd": <?php echo $getPerbandinganKarakterSD[0]->Persentase_Kejujuran ?>,
+            "smp": <?php echo $getPerbandinganKarakterSMP[0]->Persentase_Kejujuran ?>
+        }, ],
+        "valueAxes": [{
+            "axisTitleOffset": 20,
+            "minimum": 0,
+            "axisAlpha": 0.15
+        }, {
+            "id": "v2",
+            "axisTitleOffset": 20,
+            "minimum": 0,
+            "axisAlpha": 0,
+            "inside": true
+        }],
+        "startDuration": 2,
+        "graphs": [{
+                "balloonText": "[[country]] : [[value]]",
+                "bullet": "round",
+                "lineThickness": 2,
+                "valueField": "tk",
+                "title": "Tingkat TK"
+            },
+            {
+                "balloonText": "[[country]] : [[value]] ",
+                "bullet": "round",
+                "lineThickness": 2,
+                "valueField": "sd",
+                "title": "Tingkat SD"
+
+            },
+            {
+                "balloonText": "[[country]] : [[value]] ",
+                "bullet": "round",
+                "lineThickness": 2,
+                "valueField": "smp",
+                "title": "Tingkat SMP"
+
+            }
+        ],
+        "categoryField": "country",
+    });
+
+    function updateLabels(event) {
+        var labels = event.chart.chartDiv.getElementsByClassName("amcharts-axis-title");
+        for (var i = 0; i < labels.length; i++) {
+            var color = event.chart.dataProvider[i].color;
+            if (color !== undefined) {
+                labels[i].setAttribute("fill", color);
+            }
+        }
+    }
+</script>
+
 <!-- End Chart 1 -->
 
 <!-- End of grafik bagian 3 -->
@@ -922,6 +1020,7 @@
     <div class="container-fluid">
         <div class="block-header">
             <h2>Statistics & Visualization</h2>
+
         </div>
         <!-- Siswa Laki-laki -->
         <div class="row clearfix">
@@ -1096,12 +1195,21 @@
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="karakter">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-7">
                                         <div class="header">
                                             <h5> Perbandingan Absensi(Alpa) dengan Prestasi Keseluruhan </h5>
                                         </div>
                                         <div class="thumbnail">
                                             <div id="chartdiv_1_bagian_3"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+
+                                        <div class="header">
+                                            <h5> Absensi(Alpa) dengan Prestasi Keseluruhan </h5>
+                                        </div>
+                                        <div class="thumbnail">
+                                            <div id="radar_bagian3"></div>
                                         </div>
                                     </div>
                                 </div>
