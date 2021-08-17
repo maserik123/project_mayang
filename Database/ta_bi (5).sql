@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 09, 2021 at 10:21 PM
+-- Generation Time: Aug 17, 2021 at 08:34 AM
 -- Server version: 5.7.35-0ubuntu0.18.04.1
 -- PHP Version: 8.0.9
 
@@ -2873,14 +2873,14 @@ CREATE TABLE `kpi_prestasi` (
 --
 
 INSERT INTO `kpi_prestasi` (`kpi_prestasi_id`, `nilai_target`, `tahun`, `jenis`) VALUES
-(1, 12, 2017, 'Non-Akademik'),
-(2, 10, 2018, 'Non-Akademik'),
-(3, 11, 2019, 'Non-Akademik'),
-(4, 12, 2020, 'Non-Akademik'),
 (5, 34, 2017, 'Akademik'),
 (6, 12, 2018, 'Akademik'),
 (7, 10, 2019, 'Akademik'),
-(8, 15, 2020, 'Akademik');
+(8, 15, 2020, 'Akademik'),
+(9, 12, 2017, 'Non-Akademik'),
+(10, 15, 2018, 'Non-Akademik'),
+(11, 5, 2019, 'Non-Akademik'),
+(12, 9, 2020, 'Non-Akademik');
 
 -- --------------------------------------------------------
 
@@ -2907,7 +2907,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `role`, `block_status`, `online_status`, `time_online`, `time_offline`) VALUES
-(54, 'Administrator', '', 'administrator', '200ceb26807d6bf99fd6f4f0d1ca54d4', '', 'administrator', 0, 'offline', '2021-08-09 15:20:58', '2021-08-09 15:20:58'),
+(54, 'Administrator', '', 'administrator', '200ceb26807d6bf99fd6f4f0d1ca54d4', '', 'administrator', 0, 'online', '2021-08-16 23:30:52', '2021-08-16 23:30:52'),
 (56, 'Pimpinan', '', 'pimpinan', '90973652b88fe07d05a4304f0a945de8', '', 'pimpinan', 0, 'offline', '2021-08-09 15:05:57', '2021-08-09 15:05:57');
 
 --
@@ -3126,7 +3126,7 @@ ALTER TABLE `kpi_karakter_tanggungJawab`
 -- AUTO_INCREMENT for table `kpi_prestasi`
 --
 ALTER TABLE `kpi_prestasi`
-  MODIFY `kpi_prestasi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `kpi_prestasi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
