@@ -906,7 +906,6 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
-
     public function getKomparasiDataKarakterBeranda()
     {
         $this->db->select('dt.tingkatan');
@@ -946,6 +945,20 @@ class Visualisasi_model extends CI_Model
         return $this->db->get()->result();
     }
 
+
+    // function getTingkatanByTahun($kategori, $tingkatan, $tahun)
+    // {
+    //     $this->db->select('count(fp.id_fact_prestasi) as total, dt.tingkatan');
+    //     $this->db->from('fact_prestasi fp');
+    //     $this->db->join('dim_prestasi dp', 'dp.id_prestasi = fp.id_prestasi', 'left');
+    //     $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fp.id_tingkatan', 'left');
+    //     $this->db->join('dim_waktu dw', 'dw.id_waktu = fp.id_waktu', 'left');
+    //     $this->db->where('dp.kategori', $kategori);
+    //     $this->db->where('dt.tingkatan', $tingkatan);
+    //     $this->db->where('dw.tahun', $tahun);
+    //     return $this->db->get()->result();
+    // }
+
     // Bagian KPI Prestasi
     function getKPIPrestasi($kategori)
     {
@@ -954,8 +967,10 @@ class Visualisasi_model extends CI_Model
         $this->db->join('dim_waktu dw', 'dw.id_waktu = fp.id_waktu', 'left');
         $this->db->join('dim_prestasi dp', 'dp.id_prestasi = fp.id_prestasi', 'left');
         $this->db->join('kpi_prestasi kp', 'kp.tahun = dw.tahun', 'left');
+        $this->db->join('dim_tingkatan dt', 'dt.id_tingkatan = fp.id_tingkatan', 'left');
         $this->db->group_by('dw.tahun');
         $this->db->order_by('dw.tahun', 'asc');
+        $this->db->where('dp.kategori', $kategori);
         $this->db->where('kp.jenis', $kategori);
         return $this->db->get()->result();
     }
